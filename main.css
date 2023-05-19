@@ -22,3 +22,7 @@ h1 {
 .text {
     font-family: 'TheFishermans';
 }
+
+#label-container {
+    display: none;
+}
