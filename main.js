@@ -95,3 +95,5 @@ function drawPose(pose) {
         }
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () { var progressDiv = document.getElementById("progressDiv"); progressDiv.style.setProperty('--width', prediction[0].probability * 100 + '%'); });
