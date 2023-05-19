@@ -28,10 +28,27 @@
                 <button type="button" class="btn btn-primary" onclick="init()">Start</button>
                 <button type="button" class="btn btn-secondary" onclick="inc()">Inc</button>
                 <div><canvas id="canvas"></canvas></div>
-                <div id="label-container"></div>
+                <!-- <div id="label-container"></div> -->
+                <p>Pull up - Start: </p>
                 <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25"
                     aria-valuemin="0" aria-valuemax="100">
-                    <div id="progressDiv" class="progress-bar bg-success" style="width: var(--width, 0%);"></div>
+                    <div id="progressBar1" class="progress-bar bg-success" style="width: var(--width, 0%);">
+                        <div id="pu-start"></div>
+                    </div>
+                </div>
+                <p>Pull up - Mid: </p>
+                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div id="progressBar2" class="progress-bar bg-warning" style="width: var(--width, 0%);">
+                        <div id="pu-mid"></div>
+                    </div>
+                </div>
+                <p>Pull up - End: </p>
+                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div id="progressBar3" class="progress-bar bg-danger" style="width: var(--width, 0%);">
+                        <div id="pu-end"></div>
+                    </div>
                 </div>
             </div>
             <div class="col">
