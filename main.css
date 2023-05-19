@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'TheFishermans';
+    src: url('assets/TheFishermansNeighborRegular.ttf') format('truetype');
+  }
+  
+
+#counter {
+    font-size: 100px;
+    font-weight: 600;
+    font-family: 'TheFishermans';
+    transition: 1s;
+}
+
+h1 {
+    font-family: 'TheFishermans';
+}
+
+.subtitle {
+    font-size: small;
+}
+
+.text {
+    font-family: 'TheFishermans';
+}

@@ -5,6 +5,10 @@
 const URL = "./model/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
+let flag_start = false;
+let flag_end = false;
+let reps = 0;
+
 async function init() {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
@@ -16,7 +20,7 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     // Convenience function to setup a webcam
-    const size = 200;
+    const size = 400;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
@@ -33,6 +37,17 @@ async function init() {
     }
 }
 
+function updateCounter() {
+    counter = document.getElementById("counter");
+    counter.textContent = reps;
+}
+
+function inc() {
+    reps++;
+    updateCounter();
+}
+
+
 async function loop(timestamp) {
     webcam.update(); // update the webcam frame
     await predict();
@@ -46,11 +61,24 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
+    updateCounter();
     for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
             prediction[i].className + ": " + prediction[i].probability.toFixed(2);
         labelContainer.childNodes[i].innerHTML = classPrediction;
+
+        if (prediction[0].probability > 0.95 && !flag_end) {
+            flag_start = true;
+        }
+        if (prediction[2].probability > 0.95 && flag_start) {
+            flag_end = true;
+            reps++;
+
+            flag_start = false;
+            flag_end = false;
+        }
     }
+
 
     // finally draw the poses
     drawPose(pose);
