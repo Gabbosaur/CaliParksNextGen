@@ -43,10 +43,10 @@ function updateCounter() {
 }
 
 
-async function updateBar(prediction){
-    var progressBar1 = document.getElementById("progressBar1"); 
-    var progressBar2 = document.getElementById("progressBar2"); 
-    var progressBar3 = document.getElementById("progressBar3"); 
+async function updateBar(prediction) {
+    var progressBar1 = document.getElementById("progressBar1");
+    var progressBar2 = document.getElementById("progressBar2");
+    var progressBar3 = document.getElementById("progressBar3");
     await progressBar1.style.setProperty('--width', prediction[0].probability * 100 + '%');
     await progressBar2.style.setProperty('--width', prediction[1].probability * 100 + '%');
     await progressBar3.style.setProperty('--width', prediction[2].probability * 100 + '%');
@@ -63,9 +63,14 @@ function updateStartPercentage(prediction) {
 
 }
 
-function inc() {
+function incrementCounter() {
+    counter.style.fontSize = "110px";
     reps++;
     updateCounter();
+
+    setTimeout(function () {
+        counter.style.fontSize = "100px";
+    }, 200);
 }
 
 
@@ -82,8 +87,8 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
-    updateCounter();
     updateBar(prediction);
+
     for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
             prediction[i].className + ": " + prediction[i].probability.toFixed(2);
@@ -94,7 +99,7 @@ async function predict() {
         }
         if (prediction[2].probability > 0.95 && flag_start) {
             flag_end = true;
-            reps++;
+            incrementCounter();
 
             flag_start = false;
             flag_end = false;
