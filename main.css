@@ -1,8 +1,11 @@
 @font-face {
     font-family: 'TheFishermans';
     src: url('assets/TheFishermansNeighborRegular.ttf') format('truetype');
-  }
-  
+}
+
+#canvas {
+    padding: 20px;
+}
 
 #counter {
     font-size: 100px;
@@ -25,4 +28,22 @@ h1 {
 
 #label-container {
     display: none;
+}
+
+.centered-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    padding: 20px;
+}
+
+td {
+    padding: 10px 0px 5px 10px
 }
