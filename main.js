@@ -40,6 +40,7 @@ async function init() {
 function updateCounter() {
     counter = document.getElementById("counter");
     counter.textContent = reps;
+    playTone(800, "sine", 0.3);
 }
 
 
