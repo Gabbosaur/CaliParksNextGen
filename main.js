@@ -9,6 +9,32 @@ let flag_start = false;
 let flag_end = false;
 let reps = 0;
 
+var timeInSecs;
+var ticker;
+
+function startTimer(secs, webcam) {
+    resetCounter();
+    timeInSecs = parseInt(secs*10);
+    ticker = setInterval("tick(webcam)", 100); 
+}
+    
+function tick(webcam) {
+    var secs = Math.floor(timeInSecs/10);
+    var deciSecs = timeInSecs % 10;
+    if (deciSecs > 0 || secs > 0) {
+        timeInSecs--; 
+    }
+    else {
+        clearInterval(ticker);
+        webcam.stop();
+    }
+
+    secs %= 60;
+    var pretty = ( (secs < 10) ? "0" : "" ) + secs + ":" + deciSecs;
+
+    document.getElementById("countdown").innerHTML = pretty;
+}
+
 async function init() {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
@@ -25,7 +51,9 @@ async function init() {
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     await webcam.play();
+    startTimer(5, webcam);
     window.requestAnimationFrame(loop);
+    
 
     // append/get elements to the DOM
     const canvas = document.getElementById("canvas");
@@ -43,6 +71,11 @@ function updateCounter() {
     playTone(800, "sine", 0.3);
 }
 
+function resetCounter() {
+    reps = 0;
+    counter = document.getElementById("counter");
+    counter.textContent = reps;
+}
 
 async function updateBar(prediction) {
     var progressBar1 = document.getElementById("progressBar1");

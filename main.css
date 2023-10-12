@@ -26,6 +26,15 @@ h1 {
     font-family: 'TheFishermans';
 }
 
+.time {
+    font-family: 'TheFishermans';
+    font-size: small;
+}
+
+#countdown {
+  font-size: 48px;
+}
+
 #label-container {
     display: none;
 }
