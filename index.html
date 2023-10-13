@@ -12,6 +12,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
 
     <link href="main.css" rel="stylesheet" type="text/css">
     <script src="simplesounds.js" type="text/javascript"></script>
@@ -26,7 +30,21 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <button type="button" class="btn btn-primary" onclick="init()">Start</button>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <input id="playerName" type="text" aria-label="Player Name" class="form-control"
+                                maxlength="20" placeholder="player name..." onchange="updatePlayerName(this.value)">
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" onclick="init()">Start</button>
+                            <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                                data-bs-target="#leaderboard">
+                                Leaderboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div><canvas id="canvas"></canvas></div>
                 <div id="label-container"></div>
 
@@ -80,20 +98,55 @@
 
 
             </div>
-            
-            <div class="col" style="padding-top: 75px;">
-                <p class="text">TIME</p>
-                <div>
-                    <span id="countdown" style="font-weight: bold;"></span>
+
+            <div class="col d-flex align-items-center flex-column" style="padding-top: 75px;">
+                <div class="monitors">
+                    <p class="text">TIME</p>
+                    <div id="countdown">00:0</div>
                 </div>
-                <p class="text">REPS</p>
-                <div id="counter">0</div>
+
+                <div class="monitors">
+                    <p class="text">REPS</p>
+                    <div id="counter">0</div>
+                </div>
+
             </div>
 
         </div>
 
     </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="leaderboard">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Leaderboard</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div id="modalrank" class="modal-body">
+                    <ul class="list-group" id="list-group">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a
+                            onclick="exportData(this)">Export JSON</a></button>
+                    <button type="button" class="btn btn-secondary disabled" id="generate-pdf"
+                        data-bs-dismiss="modal">Export
+                        PDF</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
+    </div>
+
 </body>
 
 </html>

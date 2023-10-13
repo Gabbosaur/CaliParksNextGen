@@ -8,32 +8,109 @@ let model, webcam, ctx, labelContainer, maxPredictions;
 let flag_start = false;
 let flag_end = false;
 let reps = 0;
+let playerName = "Player";
+let ranking = [];
 
 var timeInSecs;
 var ticker;
 
 function startTimer(secs, webcam) {
     resetCounter();
-    timeInSecs = parseInt(secs*10);
-    ticker = setInterval("tick(webcam)", 100); 
+    timeInSecs = parseInt(secs * 10);
+    ticker = setInterval("tick(webcam)", 100);
 }
-    
+
 function tick(webcam) {
-    var secs = Math.floor(timeInSecs/10);
+    var secs = Math.floor(timeInSecs / 10);
     var deciSecs = timeInSecs % 10;
     if (deciSecs > 0 || secs > 0) {
-        timeInSecs--; 
+        timeInSecs--;
     }
     else {
         clearInterval(ticker);
         webcam.stop();
+        updateRanking(playerName, reps);
     }
 
     secs %= 60;
-    var pretty = ( (secs < 10) ? "0" : "" ) + secs + ":" + deciSecs;
+    var pretty = ((secs < 10) ? "0" : "") + secs + ":" + deciSecs;
 
     document.getElementById("countdown").innerHTML = pretty;
 }
+
+
+
+function updateRanking(name, reps) {
+    let record = {};
+    record["player"] = name;
+    record["reps"] = reps;
+    ranking.push(record);
+    ranking.sort((a, b) => parseInt(b.reps) - parseInt(a.reps)); // descending order
+
+    const rankingsList = document.querySelector(".list-group");
+    rankingsList.innerHTML = ""; // clear the existing list items
+    ranking.forEach((item, index) => {
+        const listItem = document.createElement("li");
+        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+        // Apply even or odd class based on the index
+        if (index % 2 === 0) {
+            listItem.classList.add("even-list-item");
+        } else {
+            listItem.classList.add("odd-list-item");
+        }
+
+        if (index === 0) {
+            listItem.innerHTML = `🥇 ${item.player}`;
+        } else if (index === 1) {
+            listItem.innerHTML = `🥈 ${item.player}`;
+        } else if (index === 2) {
+            listItem.innerHTML = `🥉 ${item.player}`;
+        }
+        else {
+            listItem.innerHTML = `${item.player}`;
+        }
+        const repsRankingElement = document.createElement("span");
+        repsRankingElement.style = "font-weight: bold;";
+        repsRankingElement.innerHTML = `${item.reps}`;
+        listItem.appendChild(repsRankingElement);
+        rankingsList.appendChild(listItem);
+    });
+}
+
+function updatePlayerName(name) {
+    name = name.trim();
+    playerName = name.charAt(0).toUpperCase() + name.slice(1);
+}
+
+
+function exportData(el) {
+    var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ranking));
+    el.setAttribute("href", "data:" + data);
+    el.setAttribute("download", "CaliParksNextGen-Ranking.json");
+}
+
+// Da fixare e strutturare meglio l'output del pdf
+window.jsPDF = window.jspdf.jsPDF;
+window.html2canvas = html2canvas;
+window.addEventListener("DOMContentLoaded", (event) => {
+    const el = document.getElementById("generate-pdf");
+    if (el) {
+        el.addEventListener("click", function () {
+            // Create a new jsPDF instance
+            var doc = new jsPDF();
+
+            // Get the HTML content you want to convert
+            var pdfContent = document.getElementById("modalrank");
+
+            // Generate the PDF from the HTML content
+            doc.html(pdfContent, { x: 5, y: 55 }).then(function () { doc.save("test.pdf") });
+
+            // Save or display the PDF (e.g., open it in a new tab)
+            // doc.save("my-pdf-document.pdf");
+        });
+    }
+});
+
 
 async function init() {
     const modelURL = URL + "model.json";
@@ -51,9 +128,9 @@ async function init() {
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     await webcam.play();
-    startTimer(5, webcam);
+    startTimer(1, webcam);
     window.requestAnimationFrame(loop);
-    
+
 
     // append/get elements to the DOM
     const canvas = document.getElementById("canvas");
@@ -81,20 +158,10 @@ async function updateBar(prediction) {
     var progressBar1 = document.getElementById("progressBar1");
     var progressBar2 = document.getElementById("progressBar2");
     var progressBar3 = document.getElementById("progressBar3");
-    await progressBar1.style.setProperty('--width', prediction[0].probability * 100 + '%');
-    await progressBar2.style.setProperty('--width', prediction[1].probability * 100 + '%');
-    await progressBar3.style.setProperty('--width', prediction[2].probability * 100 + '%');
-    updateStartPercentage(prediction);
-}
-
-function updateStartPercentage(prediction) {
-    counter1 = document.getElementById("pu-start");
-    counter2 = document.getElementById("pu-mid");
-    counter3 = document.getElementById("pu-end");
-    counter1.textContent = prediction[0].probability.toFixed(2) * 100 + '%';
-    counter2.textContent = prediction[1].probability.toFixed(2) * 100 + '%';
-    counter3.textContent = prediction[2].probability.toFixed(2) * 100 + '%';
-
+    // await
+    progressBar1.style.setProperty('--width', prediction[0].probability * 100 + '%');
+    progressBar2.style.setProperty('--width', prediction[1].probability * 100 + '%');
+    progressBar3.style.setProperty('--width', prediction[2].probability * 100 + '%');
 }
 
 function incrementCounter() {

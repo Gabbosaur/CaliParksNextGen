@@ -4,7 +4,7 @@
 }
 
 #canvas {
-    padding: 20px;
+    margin: 20px;
 }
 
 #counter {
@@ -24,6 +24,11 @@ h1 {
 
 .text {
     font-family: 'TheFishermans';
+    margin: 0;
+}
+
+.monitors {
+    padding: 1.5em;
 }
 
 .time {
@@ -32,7 +37,8 @@ h1 {
 }
 
 #countdown {
-  font-size: 48px;
+    font-size: 48px;
+    font-weight: bold;
 }
 
 #label-container {
@@ -55,4 +61,12 @@ th {
 
 td {
     padding: 10px 0px 5px 10px
+}
+
+.even-list-item {
+    background-color: #fafafa;
+}
+
+.odd-list-item {
+    background-color: #ffffff;
 }
