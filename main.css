@@ -4,7 +4,7 @@
 }
 
 #canvas {
-    margin: 20px;
+    margin: 0px;
 }
 
 #counter {
@@ -25,6 +25,14 @@ h1 {
 .text {
     font-family: 'TheFishermans';
     margin: 0;
+}
+
+.webcam-container {
+    margin: 20px;
+    width: 404px;
+    height: 404px;
+    background-color: azure;
+    border-style: double;
 }
 
 .monitors {

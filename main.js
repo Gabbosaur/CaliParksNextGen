@@ -11,6 +11,8 @@ let reps = 0;
 let playerName = "Player";
 let ranking = [];
 
+let COUNTDOWN_TIMER_IN_SECONDS = 10;
+
 var timeInSecs;
 var ticker;
 
@@ -29,6 +31,7 @@ function tick(webcam) {
     else {
         clearInterval(ticker);
         webcam.stop();
+        enableStartButton();
         updateRanking(playerName, reps);
     }
 
@@ -82,6 +85,15 @@ function updatePlayerName(name) {
     playerName = name.charAt(0).toUpperCase() + name.slice(1);
 }
 
+function disableStartButton() {
+    const button = document.getElementById("startButton");
+    button.setAttribute("disabled", "");
+}
+
+function enableStartButton() {
+    const button = document.getElementById("startButton");
+    button.removeAttribute("disabled");
+}
 
 function exportData(el) {
     var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ranking));
@@ -113,6 +125,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 
 async function init() {
+    disableStartButton();
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
@@ -128,7 +141,7 @@ async function init() {
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     await webcam.play();
-    startTimer(1, webcam);
+    startTimer(COUNTDOWN_TIMER_IN_SECONDS, webcam);
     window.requestAnimationFrame(loop);
 
 
