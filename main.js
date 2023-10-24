@@ -1,3 +1,30 @@
+// import { turnLed } from "./led.js";
+// import fetch from "node-fetch";
+
+// const IP_ADDRESS = "192.168.43.198"
+// const PORT = 8000
+
+// function turnLed(value) {
+//     fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
+//         method: 'PATCH',
+//         body: JSON.stringify({ "on": value }),
+//         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+//     }).then((response) => response.json())
+//         .then((json) => console.log(json));
+// }
+window.onload = function () {
+    document.getElementById("turnLedOn").onclick = function () {
+        console.log("clicked led ON");
+        turnLed(1);
+    };
+    document.getElementById("turnLedOff").onclick = function () {
+        console.log("clicked led OFF");
+        turnLed(0);
+    }
+}
+
+
+
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
@@ -7,6 +34,7 @@ let model, webcam, ctx, labelContainer, maxPredictions;
 
 let flag_start = false;
 let flag_end = false;
+let flag_led = false;
 let reps = 0;
 let playerName = "Player";
 let ranking = [];
@@ -181,7 +209,8 @@ function incrementCounter() {
     counter.style.fontSize = "110px";
     reps++;
     updateCounter();
-
+    turnLed(1);
+    flag_led = true;
     setTimeout(function () {
         counter.style.fontSize = "100px";
     }, 200);
@@ -210,6 +239,10 @@ async function predict() {
 
         if (prediction[0].probability > 0.95 && !flag_end) {
             flag_start = true;
+            if (flag_led) {
+                turnLed(0);
+                flag_led = false;
+            }
         }
         if (prediction[2].probability > 0.95 && flag_start) {
             flag_end = true;
