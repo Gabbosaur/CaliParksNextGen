@@ -1,8 +1,8 @@
 // import { turnLed } from "./led.js";
 // import fetch from "node-fetch";
 
-// const IP_ADDRESS = "192.168.43.198"
-// const PORT = 8000
+const IP_ADDRESS = "192.168.43.198"
+const PORT = 8000
 
 // function turnLed(value) {
 //     fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
@@ -13,15 +13,40 @@
 //         .then((json) => console.log(json));
 // }
 window.onload = function () {
-    document.getElementById("turnLedOn").onclick = function () {
+    document.getElementById('turnLedOn').addEventListener('click', function () {
         console.log("clicked led ON");
-        turnLed(1);
-    };
-    document.getElementById("turnLedOff").onclick = function () {
-        console.log("clicked led OFF");
-        turnLed(0);
-    }
+        fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
+            method: 'PATCH',
+            body: JSON.stringify({ "on": 1 }),
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        }).then((response) => response.json())
+            .then((json) => console.log(json));
+    });
+    // document.getElementById("turnLedOff").onclick = function () {
+    //     console.log("clicked led OFF");
+    //     turnLed(0);
+    // }
+
+    // document.getElementById('fetchData').addEventListener('click', function () {
+    //     console.log("test");
+    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
+    //       .then(response => {
+    //         if (!response.ok) {
+    //           throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //       })
+    //       .then(data => {
+    //         document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+    //       })
+    //       .catch(error => {
+    //         document.getElementById('output').innerText = 'Error: ' + error.message;
+    //       });
+    //     // console.log("test");
+    //   });
+
 }
+
 
 
 
@@ -209,7 +234,7 @@ function incrementCounter() {
     counter.style.fontSize = "110px";
     reps++;
     updateCounter();
-    turnLed(1);
+    // turnLed(1);
     flag_led = true;
     setTimeout(function () {
         counter.style.fontSize = "100px";
@@ -240,7 +265,7 @@ async function predict() {
         if (prediction[0].probability > 0.95 && !flag_end) {
             flag_start = true;
             if (flag_led) {
-                turnLed(0);
+                // turnLed(0);
                 flag_led = false;
             }
         }
