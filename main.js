@@ -4,47 +4,28 @@
 const IP_ADDRESS = "192.168.43.198"
 const PORT = 8000
 
-// function turnLed(value) {
-//     fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
-//         method: 'PATCH',
-//         body: JSON.stringify({ "on": value }),
-//         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-//     }).then((response) => response.json())
-//         .then((json) => console.log(json));
-// }
+function turnLed(value) {
+    fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
+        method: 'PATCH',
+        body: JSON.stringify({ "on": value }),
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+    }).then((response) => response.json())
+        .then((json) => console.log(json));
+}
+console.log("provaa")
+
 window.onload = function () {
     document.getElementById('turnLedOn').addEventListener('click', function () {
         console.log("clicked led ON");
-        fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
-            method: 'PATCH',
-            body: JSON.stringify({ "on": 1 }),
-            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-        }).then((response) => response.json())
-            .then((json) => console.log(json));
+        turnLed(1);
+        console.log("finish ON");
     });
-    // document.getElementById("turnLedOff").onclick = function () {
-    //     console.log("clicked led OFF");
-    //     turnLed(0);
-    // }
 
-    // document.getElementById('fetchData').addEventListener('click', function () {
-    //     console.log("test");
-    //     fetch('https://jsonplaceholder.typicode.com/posts/1')
-    //       .then(response => {
-    //         if (!response.ok) {
-    //           throw new Error('Network response was not ok');
-    //         }
-    //         return response.json();
-    //       })
-    //       .then(data => {
-    //         document.getElementById('output').innerText = JSON.stringify(data, null, 2);
-    //       })
-    //       .catch(error => {
-    //         document.getElementById('output').innerText = 'Error: ' + error.message;
-    //       });
-    //     // console.log("test");
-    //   });
-
+    document.getElementById("turnLedOff").addEventListener('click', function () {
+        console.log("clicked led OFF");
+        turnLed(0);
+        console.log("finish OFF");
+    });
 }
 
 
@@ -234,7 +215,8 @@ function incrementCounter() {
     counter.style.fontSize = "110px";
     reps++;
     updateCounter();
-    // turnLed(1);
+    turnLed(1);
+    console.log("led ON");
     flag_led = true;
     setTimeout(function () {
         counter.style.fontSize = "100px";
@@ -265,7 +247,8 @@ async function predict() {
         if (prediction[0].probability > 0.95 && !flag_end) {
             flag_start = true;
             if (flag_led) {
-                // turnLed(0);
+                turnLed(0);
+                console.log("led OFF");
                 flag_led = false;
             }
         }
