@@ -1,8 +1,8 @@
 // import { turnLed } from "./led.js";
 // import fetch from "node-fetch";
 
-const IP_ADDRESS = "192.168.43.198"
-const PORT = 8000
+const IP_ADDRESS = "10.8.0.30"
+const PORT = 8123
 
 function turnLed(value) {
     fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
@@ -12,7 +12,7 @@ function turnLed(value) {
     }).then((response) => response.json())
         .then((json) => console.log(json));
 }
-console.log("provaa")
+console.log("provaassaoksa")
 
 window.onload = function () {
     document.getElementById('turnLedOn').addEventListener('click', function () {
@@ -34,8 +34,8 @@ window.onload = function () {
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
-// the link to your model provided by Teachable Machine export panel
-const URL = "./model/";
+// const URL = "./model/";
+const URL = "https://teachablemachine.withgoogle.com/models/to5Ug0JQ_/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 let flag_start = false;
@@ -45,7 +45,7 @@ let reps = 0;
 let playerName = "Player";
 let ranking = [];
 
-let COUNTDOWN_TIMER_IN_SECONDS = 10;
+let COUNTDOWN_TIMER_IN_SECONDS = 30;
 
 var timeInSecs;
 var ticker;
