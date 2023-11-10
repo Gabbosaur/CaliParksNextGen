@@ -50,7 +50,11 @@
                             <button type="button" id="turnLedOff" class="btn btn-light">
                                 OFF
                             </button>
-                              <pre id="output"></pre>
+                            <select id="gameModeSelect" class="form-select" aria-label="Default select example">
+                                <option selected value="amrap">As many reps as possible</option>
+                                <option value="iso">Isometric hold</option>
+                            </select>
+                            <pre id="output"></pre>
                         </div>
                     </div>
                 </div>
@@ -113,12 +117,19 @@
             </div>
 
             <div class="col d-flex align-items-center flex-column" style="padding-top: 75px;">
-                <div class="monitors">
+                <div id="timer" class="monitors">
                     <p class="text">TIME</p>
                     <div id="countdown">00:0</div>
+                    <div class="stopwatch">
+                        <span id="display"></span>
+                        <!-- <button id="start" onclick="startIsoTimer()">Start</button>
+                        <button id="stop" onclick="stopIsoTimer()">Stop</button>
+                        <button id="reset" onclick="resetIsoTimer()">Reset</button> -->
+                    </div>
+
                 </div>
 
-                <div class="monitors">
+                <div id="amrapcounter" class="monitors">
                     <p class="text">REPS</p>
                     <div id="counter">0</div>
                 </div>
@@ -142,7 +153,28 @@
 
                 <!-- Modal body -->
                 <div id="modalrank" class="modal-body">
-                    <ul class="list-group" id="list-group">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="amrap-tab" data-bs-toggle="tab"
+                                data-bs-target="#amrapTab" type="button" role="tab" aria-controls="amrapTab"
+                                aria-selected="true">AMRAP</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="isometric-tab" data-bs-toggle="tab"
+                                data-bs-target="#isometricTab" type="button" role="tab" aria-controls="isometricTab"
+                                aria-selected="false">ISO</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="amrapTab" role="tabpanel"
+                            aria-labelledby="amrap-tab">
+                            <ul class="list-group" id="list-group"></ul>
+                        </div>
+                        <div class="tab-pane fade" id="isometricTab" role="tabpanel" aria-labelledby="isometric-tab">
+                            <ul class="list-group-iso" id="list-group-iso"></ul>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Modal footer -->

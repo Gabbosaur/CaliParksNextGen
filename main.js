@@ -12,7 +12,7 @@ function turnLed(value) {
     }).then((response) => response.json())
         .then((json) => console.log(json));
 }
-console.log("provaa")
+console.log("provasa")
 
 window.onload = function () {
     document.getElementById('turnLedOn').addEventListener('click', function () {
@@ -26,6 +26,9 @@ window.onload = function () {
         turnLed(0);
         console.log("finish OFF");
     });
+
+
+
 }
 
 
@@ -41,14 +44,66 @@ let model, webcam, ctx, labelContainer, maxPredictions;
 let flag_start = false;
 let flag_end = false;
 let flag_led = false;
+let flag_SW_start = false;
+let flag_SW_end = false;
 let reps = 0;
 let playerName = "Player";
 let ranking = [];
+let selectedGameMode = "amrap";
+let rankingIso = [];
+let floatIsoValue = 0.0;
+
 
 let COUNTDOWN_TIMER_IN_SECONDS = 10;
 
 var timeInSecs;
 var ticker;
+
+let startTime = 0;
+let interval;
+let isRunning = false;
+let centiseconds = 0;
+
+function startIsoTimer() {
+    if (!isRunning) {
+        startTime = new Date().getTime() - centiseconds * 10;
+        interval = setInterval(updateDisplay, 10); // Update display every 10 milliseconds
+        // document.getElementById("start").textContent = "Start";
+        isRunning = true;
+    }
+}
+
+function stopIsoTimer() {
+    if (isRunning) {
+        clearInterval(interval);
+        // document.getElementById("stop").textContent = "Stop";
+        isRunning = false;
+        centiseconds = Math.floor((new Date().getTime() - startTime) / 10);
+    }
+}
+
+function resetIsoTimer() {
+    clearInterval(interval);
+    document.getElementById("display").textContent = "00.00";
+    // document.getElementById("start").textContent = "Start";
+    isRunning = false;
+    centiseconds = 0;
+}
+
+function updateDisplay() {
+    centiseconds = Math.floor((new Date().getTime() - startTime) / 10);
+    const seconds = Math.floor(centiseconds / 100);
+    const centiSeconds = centiseconds % 100;
+
+    const display = `${String(seconds).padStart(2, '0')}.${String(centiSeconds).padStart(2, '0')}`;
+    document.getElementById("display").textContent = display;
+
+    const stringValue = seconds.toString() + "." + centiseconds.toString();
+    floatIsoValue = parseFloat(stringValue);
+}
+
+
+
 
 function startTimer(secs, webcam) {
     resetCounter();
@@ -66,7 +121,8 @@ function tick(webcam) {
         clearInterval(ticker);
         webcam.stop();
         enableStartButton();
-        updateRanking(playerName, reps);
+        enableSelectGameMode();
+        updateRanking(playerName, reps, null, selectedGameMode);
     }
 
     secs %= 60;
@@ -77,41 +133,79 @@ function tick(webcam) {
 
 
 
-function updateRanking(name, reps) {
-    let record = {};
-    record["player"] = name;
-    record["reps"] = reps;
-    ranking.push(record);
-    ranking.sort((a, b) => parseInt(b.reps) - parseInt(a.reps)); // descending order
+function updateRanking(name, reps, time, gameMode) {
+    if (gameMode === "amrap") {
+        let record = {};
+        record["player"] = name;
+        record["reps"] = reps;
+        ranking.push(record);
+        ranking.sort((a, b) => parseInt(b.reps) - parseInt(a.reps)); // descending order
 
-    const rankingsList = document.querySelector(".list-group");
-    rankingsList.innerHTML = ""; // clear the existing list items
-    ranking.forEach((item, index) => {
-        const listItem = document.createElement("li");
-        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-        // Apply even or odd class based on the index
-        if (index % 2 === 0) {
-            listItem.classList.add("even-list-item");
-        } else {
-            listItem.classList.add("odd-list-item");
-        }
+        const rankingsList = document.querySelector(".list-group");
+        rankingsList.innerHTML = ""; // clear the existing list items
+        ranking.forEach((item, index) => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+            // Apply even or odd class based on the index
+            if (index % 2 === 0) {
+                listItem.classList.add("even-list-item");
+            } else {
+                listItem.classList.add("odd-list-item");
+            }
 
-        if (index === 0) {
-            listItem.innerHTML = `🥇 ${item.player}`;
-        } else if (index === 1) {
-            listItem.innerHTML = `🥈 ${item.player}`;
-        } else if (index === 2) {
-            listItem.innerHTML = `🥉 ${item.player}`;
-        }
-        else {
-            listItem.innerHTML = `${item.player}`;
-        }
-        const repsRankingElement = document.createElement("span");
-        repsRankingElement.style = "font-weight: bold;";
-        repsRankingElement.innerHTML = `${item.reps}`;
-        listItem.appendChild(repsRankingElement);
-        rankingsList.appendChild(listItem);
-    });
+            if (index === 0) {
+                listItem.innerHTML = `🥇 ${item.player}`;
+            } else if (index === 1) {
+                listItem.innerHTML = `🥈 ${item.player}`;
+            } else if (index === 2) {
+                listItem.innerHTML = `🥉 ${item.player}`;
+            }
+            else {
+                listItem.innerHTML = `${item.player}`;
+            }
+            const repsRankingElement = document.createElement("span");
+            repsRankingElement.style = "font-weight: bold;";
+            repsRankingElement.innerHTML = `${item.reps}`;
+            listItem.appendChild(repsRankingElement);
+            rankingsList.appendChild(listItem);
+        });
+    } else if (gameMode === "iso") {
+        let record = {};
+        record["player"] = name;
+        record["time"] = time;
+        rankingIso.push(record);
+        rankingIso.sort((a, b) => parseInt(b.time) - parseInt(a.time)); // descending order
+
+        const rankingsListIso = document.querySelector(".list-group-iso");
+        rankingsListIso.innerHTML = ""; // clear the existing list items
+        rankingIso.forEach((item, index) => {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+            // Apply even or odd class based on the index
+            if (index % 2 === 0) {
+                listItem.classList.add("even-list-item");
+            } else {
+                listItem.classList.add("odd-list-item");
+            }
+
+            if (index === 0) {
+                listItem.innerHTML = `🥇 ${item.player}`;
+            } else if (index === 1) {
+                listItem.innerHTML = `🥈 ${item.player}`;
+            } else if (index === 2) {
+                listItem.innerHTML = `🥉 ${item.player}`;
+            }
+            else {
+                listItem.innerHTML = `${item.player}`;
+            }
+            const repsRankingElement = document.createElement("span");
+            repsRankingElement.style = "font-weight: bold;";
+            repsRankingElement.innerHTML = `${item.time}`;
+            listItem.appendChild(repsRankingElement);
+            rankingsListIso.appendChild(listItem);
+        });
+    }
+
 }
 
 function updatePlayerName(name) {
@@ -124,12 +218,22 @@ function disableStartButton() {
     button.setAttribute("disabled", "");
 }
 
+function disableSelectGameMode() {
+    const button = document.getElementById("gameModeSelect");
+    button.setAttribute("disabled", "");
+}
+
 function enableStartButton() {
     const button = document.getElementById("startButton");
     button.removeAttribute("disabled");
 }
 
-function exportData(el) {
+function enableSelectGameMode() {
+    const button = document.getElementById("gameModeSelect");
+    button.removeAttribute("disabled");
+}
+
+function exportData(el) { // da separare i due rankings
     var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ranking));
     el.setAttribute("href", "data:" + data);
     el.setAttribute("download", "CaliParksNextGen-Ranking.json");
@@ -157,9 +261,45 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the select element by its ID
+    var selectElement = document.getElementById("gameModeSelect");
+
+    // Add an event listener to listen for changes in the select element
+    selectElement.addEventListener("change", function () {
+        // Get the selected value
+        var selectedValue = selectElement.value;
+
+        // Use the selected value as needed
+        console.log("Selected Game Mode: " + selectedValue);
+
+        // You can perform additional actions based on the selected value here.
+        // For example:
+        if (selectedValue === "amrap") {
+            // Handle the "As many reps as possible" mode
+            selectedGameMode = "amrap";
+            document.getElementById("amrapcounter").style.display = "inline";
+            document.getElementById("countdown").style.display = "inline";
+            document.getElementById("countdown").style.fontSize = "48px";
+            document.getElementById("display").style.display = "none";
+
+        } else if (selectedValue === "iso") {
+            // Handle the "Isometric hold" mode
+            selectedGameMode = "iso";
+            document.getElementById("amrapcounter").style.display = "none";
+            document.getElementById("countdown").style.display = "none";
+            document.getElementById("display").style.display = "inline";
+            document.getElementById("display").textContent = "00.00";
+            document.getElementById("display").style.fontSize = "68px";
+            // DA FARE LA PARTE DEL CONTROLLO ISOMETRICO
+            // DA FARE LA CLASSIFICA, SEPARARE IN MODALITà
+        }
+    });
+});
 
 async function init() {
     disableStartButton();
+    disableSelectGameMode();
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
 
@@ -175,17 +315,34 @@ async function init() {
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     await webcam.play();
-    startTimer(COUNTDOWN_TIMER_IN_SECONDS, webcam);
-    window.requestAnimationFrame(loop);
+
+    // Game Mode
+    if (selectedGameMode === 'amrap') {
+        console.log("Game Mode: " + selectedGameMode);
+        startTimer(COUNTDOWN_TIMER_IN_SECONDS, webcam);
+        window.requestAnimationFrame(loop);
+
+        // append/get elements to the DOM
+        const canvas = document.getElementById("canvas");
+        canvas.width = size; canvas.height = size;
+        ctx = canvas.getContext("2d");
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
+    } else if (selectedGameMode === 'iso') {
+        console.log("Game Mode: " + selectedGameMode);
+        window.requestAnimationFrame(loopIso);
 
 
-    // append/get elements to the DOM
-    const canvas = document.getElementById("canvas");
-    canvas.width = size; canvas.height = size;
-    ctx = canvas.getContext("2d");
-    labelContainer = document.getElementById("label-container");
-    for (let i = 0; i < maxPredictions; i++) { // and class labels
-        labelContainer.appendChild(document.createElement("div"));
+        // append/get elements to the DOM
+        const canvas = document.getElementById("canvas");
+        canvas.width = size; canvas.height = size;
+        ctx = canvas.getContext("2d");
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
     }
 }
 
@@ -224,10 +381,55 @@ function incrementCounter() {
 }
 
 
+
+
+
+// function startIsoTimer() {
+//     clearInterval(Interval);
+//     Interval = setInterval(startSW, 10);
+// }
+
+// function stopIsoTimer() {
+//     clearInterval(Interval);
+// }
+
+// function resetIsoTimer() {
+//     clearInterval(Interval);
+//     tens = "00";
+//     seconds = "00";
+//     appendTens.innerHTML = tens;
+//     appendSeconds.innerHTML = seconds;
+// }
+
+// function startSW() {
+//     tens++;
+//     if (tens <= 9) {
+//         appendTens.innerHTML = "0" + tens;
+//     }
+//     if (tens > 9) {
+//         appendTens.innerHTML = tens;
+//     }
+//     if (tens > 99) {
+//         seconds++;
+//         appendSeconds.innerHTML = "0" + seconds;
+//         tens = 0;
+//         appendTens.innerHTML = "0" + 0;
+//     }
+//     if (seconds > 9) {
+//         appendSeconds.innerHTML = seconds;
+//     }
+// }
+
 async function loop(timestamp) {
     webcam.update(); // update the webcam frame
     await predict();
     window.requestAnimationFrame(loop);
+}
+
+async function loopIso(timestamp) {
+    webcam.update(); // update the webcam frame
+    await predictIso();
+    window.requestAnimationFrame(loopIso);
 }
 
 async function predict() {
@@ -256,6 +458,55 @@ async function predict() {
             flag_end = true;
             incrementCounter();
 
+            flag_start = false;
+            flag_end = false;
+        }
+    }
+
+
+    // finally draw the poses
+    drawPose(pose);
+}
+
+async function predictIso() {
+    // Prediction #1: run input through posenet
+    // estimatePose can take in an image, video or canvas html element
+    const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+    // Prediction 2: run input through teachable machine classification model
+    const prediction = await model.predict(posenetOutput);
+
+    updateBar(prediction);
+
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+            prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        labelContainer.childNodes[i].innerHTML = classPrediction;
+
+        if (prediction[0].probability > 0.95 && !flag_end) {
+            flag_start = true;
+            // if (flag_led) {
+            //     turnLed(0);
+            //     console.log("led OFF");
+            //     flag_led = false;
+            // }
+            if (flag_SW_end) {
+                webcam.stop();
+                enableStartButton();
+                enableSelectGameMode();
+                updateRanking(playerName, null, floatIsoValue, selectedGameMode);
+                resetIsoTimer();
+                flag_SW_end = false;
+            }
+        }
+        if (prediction[1].probability > 0.95 && flag_SW_start) {
+            stopIsoTimer();
+            flag_SW_end = true;
+            flag_SW_start = false;
+        }
+        if (prediction[2].probability > 0.95 && flag_start) {
+            flag_end = true;
+            startIsoTimer();
+            flag_SW_start = true;
             flag_start = false;
             flag_end = false;
         }

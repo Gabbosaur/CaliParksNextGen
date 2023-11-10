@@ -49,6 +49,11 @@ h1 {
     font-weight: bold;
 }
 
+#display {
+    font-size: 48px;
+    font-weight: bold;
+}
+
 #label-container {
     display: none;
 }
