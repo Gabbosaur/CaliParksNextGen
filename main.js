@@ -1,8 +1,8 @@
 // import { turnLed } from "./led.js";
 // import fetch from "node-fetch";
 
-const IP_ADDRESS = "192.168.43.198"
-const PORT = 8000
+const IP_ADDRESS = "10.8.0.30"
+const PORT = 8123
 
 function turnLed(value) {
     fetch('http://' + IP_ADDRESS + ':' + PORT + '/set/21', {
