@@ -38,7 +38,9 @@ window.onload = function () {
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
 // the link to your model provided by Teachable Machine export panel
-const URL = "./model/";
+// const URL = "./model/";
+const URL = "https://teachablemachine.withgoogle.com/models/5J7bd1hZc/";
+
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 let flag_start = false;
@@ -66,6 +68,8 @@ let centiseconds = 0;
 
 function startIsoTimer() {
     if (!isRunning) {
+        playTone(800, "sine", 0.3); // Play start sound on server
+        turnLed(1); // Turn LED ON and sound on raspberry
         startTime = new Date().getTime() - centiseconds * 10;
         interval = setInterval(updateDisplay, 10); // Update display every 10 milliseconds
         // document.getElementById("start").textContent = "Start";
@@ -75,6 +79,8 @@ function startIsoTimer() {
 
 function stopIsoTimer() {
     if (isRunning) {
+        playTone(800, "sine", 0.3); // Play finish sound on server
+        turnLed(1); // Play sound again on raspberry
         clearInterval(interval);
         // document.getElementById("stop").textContent = "Stop";
         isRunning = false;
@@ -84,6 +90,7 @@ function stopIsoTimer() {
 
 function resetIsoTimer() {
     clearInterval(interval);
+    turnLed(0);
     document.getElementById("display").textContent = "00.00";
     // document.getElementById("start").textContent = "Start";
     isRunning = false;
@@ -170,6 +177,7 @@ function updateRanking(name, reps, time, gameMode) {
             rankingsList.appendChild(listItem);
         });
     } else if (gameMode === "iso") {
+        console.log("time in iso mode: " + time);
         let record = {};
         record["player"] = name;
         record["time"] = time;
@@ -181,6 +189,16 @@ function updateRanking(name, reps, time, gameMode) {
         rankingIso.forEach((item, index) => {
             const listItem = document.createElement("li");
             listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+
+            // convert back to a better format
+            let t_seconds = Math.floor(item.time);
+            let t_centiseconds = Math.round((item.time-t_seconds)*100);
+            console.log(time);
+            console.log(t_seconds);
+            console.log(t_centiseconds);
+            const t_time = `${String(t_seconds).padStart(2, '0')}.${String(t_centiseconds).padStart(2, '0')}`;
+        
+
             // Apply even or odd class based on the index
             if (index % 2 === 0) {
                 listItem.classList.add("even-list-item");
@@ -200,7 +218,8 @@ function updateRanking(name, reps, time, gameMode) {
             }
             const repsRankingElement = document.createElement("span");
             repsRankingElement.style = "font-weight: bold;";
-            repsRankingElement.innerHTML = `${item.time}`;
+            // repsRankingElement.innerHTML = `${item.time}`;
+            repsRankingElement.innerHTML = `${t_time}`;
             listItem.appendChild(repsRankingElement);
             rankingsListIso.appendChild(listItem);
         });
@@ -300,8 +319,10 @@ document.addEventListener("DOMContentLoaded", function () {
 async function init() {
     disableStartButton();
     disableSelectGameMode();
+    resetIsoTimer();
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
+    
 
     // load the model and metadata
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
@@ -382,44 +403,6 @@ function incrementCounter() {
 
 
 
-
-
-// function startIsoTimer() {
-//     clearInterval(Interval);
-//     Interval = setInterval(startSW, 10);
-// }
-
-// function stopIsoTimer() {
-//     clearInterval(Interval);
-// }
-
-// function resetIsoTimer() {
-//     clearInterval(Interval);
-//     tens = "00";
-//     seconds = "00";
-//     appendTens.innerHTML = tens;
-//     appendSeconds.innerHTML = seconds;
-// }
-
-// function startSW() {
-//     tens++;
-//     if (tens <= 9) {
-//         appendTens.innerHTML = "0" + tens;
-//     }
-//     if (tens > 9) {
-//         appendTens.innerHTML = tens;
-//     }
-//     if (tens > 99) {
-//         seconds++;
-//         appendSeconds.innerHTML = "0" + seconds;
-//         tens = 0;
-//         appendTens.innerHTML = "0" + 0;
-//     }
-//     if (seconds > 9) {
-//         appendSeconds.innerHTML = seconds;
-//     }
-// }
-
 async function loop(timestamp) {
     webcam.update(); // update the webcam frame
     await predict();
@@ -494,7 +477,6 @@ async function predictIso() {
                 enableStartButton();
                 enableSelectGameMode();
                 updateRanking(playerName, null, floatIsoValue, selectedGameMode);
-                resetIsoTimer();
                 flag_SW_end = false;
             }
         }
