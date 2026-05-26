@@ -1,0 +1,31 @@
+{
+	"id": "pull-up",
+	"name": "Pull Up",
+	"icon": "fitness_center",
+	"description": "Count max reps. Maximum velocity, maximum effort.",
+	"phases": [
+		{
+			"name": "pu-start",
+			"label": "Pull Up - Start",
+			"confidenceThreshold": 0.95
+		},
+		{
+			"name": "pu-mid",
+			"label": "Pull Up - Mid",
+			"confidenceThreshold": 0.85
+		},
+		{
+			"name": "pu-end",
+			"label": "Pull Up - End",
+			"confidenceThreshold": 0.95
+		}
+	],
+	"supportedModes": ["amrap", "iso"],
+	"repSequence": ["pu-start", "pu-end"],
+	"holdPhase": "pu-end",
+	"poseProvider": {
+		"id": "teachable-machine",
+		"modelPath": "/models/pull-up/",
+		"options": {}
+	}
+}

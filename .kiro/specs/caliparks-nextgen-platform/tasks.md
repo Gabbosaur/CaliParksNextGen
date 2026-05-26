@@ -25,55 +25,55 @@
 - [x] Create `src/lib/config/types.ts` — DeviceConfig types
 
 ### Task 3: Implement device configuration system
-- [ ] Create `src/lib/config/device.ts` — device ID, park ID, hardware service URL
-- [ ] Create `src/lib/config/exercises.ts` — exercise config loader from JSON files
-- [ ] Create `exercises/pull-up.json` — pull-up exercise configuration
-- [ ] Support loading config from environment variables or local JSON file
-- [ ] Validate config on startup, show error screen if invalid
+- [x] Create `src/lib/config/device.ts` — device ID, park ID, hardware service URL
+- [x] Create `src/lib/config/exercises.ts` — exercise config loader from JSON files
+- [x] Create `exercises/pull-up.json` — pull-up exercise configuration
+- [x] Support loading config from environment variables or local JSON file
+- [x] Validate config on startup, show error screen if invalid
 
 ---
 
 ## Phase 2: ML Layer (Pose Provider)
 
 ### Task 4: Implement PoseProvider interface and factory
-- [ ] Create `src/lib/ml/pose-provider.ts` — abstract interface definition
-- [ ] Create `src/lib/ml/provider-factory.ts` — factory that instantiates providers by config string
-- [ ] Add error handling and fallback logic (try alternative provider on failure)
-- [ ] Add provider initialization status tracking
+- [x] Create `src/lib/ml/pose-provider.ts` — abstract interface definition
+- [x] Create `src/lib/ml/provider-factory.ts` — factory that instantiates providers by config string
+- [x] Add error handling and fallback logic (try alternative provider on failure)
+- [x] Add provider initialization status tracking
 
 ### Task 5: Implement Teachable Machine Pose provider
-- [ ] Create `src/lib/ml/providers/teachable-machine.ts`
-- [ ] Implement `initialize()` — load model from local path
-- [ ] Implement `estimatePose()` — run PoseNet estimation, normalize keypoints
-- [ ] Implement `classify()` — run TM classification, return phase probabilities
-- [ ] Implement `dispose()` — clean up TF.js tensors
-- [ ] Copy existing pull-up model files to `static/models/pull-up/`
-- [ ] Test model loading and inference in browser
+- [x] Create `src/lib/ml/providers/teachable-machine.ts`
+- [x] Implement `initialize()` — load model from local path
+- [x] Implement `estimatePose()` — run PoseNet estimation, normalize keypoints
+- [x] Implement `classify()` — run TM classification, return phase probabilities
+- [x] Implement `dispose()` — clean up TF.js tensors
+- [x] Copy existing pull-up model files to `static/models/pull-up/`
+- [x] Test model loading and inference in browser
 
 ---
 
 ## Phase 3: Exercise Engine
 
 ### Task 6: Implement Exercise Engine core
-- [ ] Create `src/lib/exercises/exercise-engine.ts`
-- [ ] Implement phase transition detection with configurable thresholds
-- [ ] Implement rep counting (detect full phase sequence completion)
-- [ ] Expose reactive metrics via Svelte writable store
-- [ ] Support variable number of phases per exercise
+- [x] Create `src/lib/exercises/exercise-engine.ts`
+- [x] Implement phase transition detection with configurable thresholds
+- [x] Implement rep counting (detect full phase sequence completion)
+- [x] Expose reactive metrics via Svelte writable store
+- [x] Support variable number of phases per exercise
 
 ### Task 7: Implement AMRAP mode
-- [ ] Create `src/lib/exercises/modes/amrap.ts`
-- [ ] Implement countdown timer with decisecond precision
-- [ ] Integrate with exercise engine for rep counting
-- [ ] Handle session start/stop lifecycle
-- [ ] Emit events on rep counted, timer expired
+- [x] Create `src/lib/exercises/modes/amrap.ts`
+- [x] Implement countdown timer with decisecond precision
+- [x] Integrate with exercise engine for rep counting
+- [x] Handle session start/stop lifecycle
+- [x] Emit events on rep counted, timer expired
 
 ### Task 8: Implement ISO (Isometric Hold) mode
-- [ ] Create `src/lib/exercises/modes/iso.ts`
-- [ ] Implement hold detection (enter/exit hold phase)
-- [ ] Implement centisecond precision stopwatch
-- [ ] Handle session start/stop lifecycle
-- [ ] Emit events on hold start, hold end
+- [x] Create `src/lib/exercises/modes/iso.ts`
+- [x] Implement hold detection (enter/exit hold phase)
+- [x] Implement centisecond precision stopwatch
+- [x] Handle session start/stop lifecycle
+- [x] Emit events on hold start, hold end
 
 ### Task 9: Implement Exercise Registry
 - [ ] Create `src/lib/exercises/registry.ts`
@@ -87,19 +87,19 @@
 ## Phase 4: Audio & Hardware
 
 ### Task 10: Implement Audio Engine
-- [ ] Create `src/lib/audio/audio-engine.ts` — Web Audio API wrapper
-- [ ] Create `src/lib/audio/sounds.ts` — sound definitions (rep beep, hold start/stop, countdown warning)
-- [ ] Implement `playRepSound()`, `playHoldStart()`, `playHoldEnd()`, `playCountdownWarning()`
-- [ ] Handle AudioContext initialization (user gesture requirement)
-- [ ] Keep latency <10ms using oscillator approach
+- [x] Create `src/lib/audio/audio-engine.ts` — Web Audio API wrapper
+- [x] Create `src/lib/audio/sounds.ts` — sound definitions (rep beep, hold start/stop, countdown warning)
+- [x] Implement `playRepSound()`, `playHoldStart()`, `playHoldEnd()`, `playCountdownWarning()`
+- [x] Handle AudioContext initialization (user gesture requirement)
+- [x] Keep latency <10ms using oscillator approach
 
 ### Task 11: Implement Hardware Service client
-- [ ] Create `src/lib/hardware/hardware-service.ts`
-- [ ] Implement LED control (on/off) via HTTP PATCH
-- [ ] Implement audio trigger via HTTP POST
-- [ ] Implement health check endpoint polling
-- [ ] Graceful degradation: catch errors silently, log warnings
-- [ ] Make base URL configurable via device config
+- [x] Create `src/lib/hardware/hardware-service.ts`
+- [x] Implement LED control (on/off) via HTTP PATCH
+- [x] Implement audio trigger via HTTP POST
+- [x] Implement health check endpoint polling
+- [x] Graceful degradation: catch errors silently, log warnings
+- [x] Make base URL configurable via device config
 
 ---
 
