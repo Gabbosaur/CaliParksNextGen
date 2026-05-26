@@ -3,11 +3,7 @@
 	import { initAudio } from '@audio/audio-engine';
 	import { onMount } from 'svelte';
 
-	let selectedDuration = 60;
-	const durations = [30, 60, 90, 120];
-
 	onMount(() => {
-		// Init audio on this page (user gesture from navigation)
 		initAudio();
 	});
 </script>
@@ -31,20 +27,6 @@
 			</div>
 		</div>
 
-		<!-- Timer Duration Selector -->
-		<div class="flex justify-center gap-sm mb-lg animate-fade-up delay-100">
-			<div class="flex gap-sm p-sm rounded-full border border-primary-container/20 bg-surface-container-lowest/50 backdrop-blur-md">
-				{#each durations as d}
-					<button
-						class="h-[48px] px-md rounded-full font-label-xl text-[14px] uppercase tracking-wider transition-all duration-300 {selectedDuration === d ? 'bg-[rgba(0,242,255,0.2)] border border-primary-container text-primary-container shadow-[0_0_10px_rgba(0,242,255,0.2)]' : 'text-on-surface-variant hover:text-primary-container'}"
-						on:click={() => selectedDuration = d}
-					>
-						{d}s
-					</button>
-				{/each}
-			</div>
-		</div>
-
 		<!-- Mode Cards -->
 		<div class="flex flex-col md:flex-row gap-8 xl:gap-16 justify-center items-stretch h-[550px] w-full animate-fade-up delay-200">
 			<GameModeCard
@@ -54,8 +36,8 @@
 				icon="fitness_center"
 				badge="Class: Dynamic"
 				number="01"
-				description="Count max reps in {selectedDuration}s. Maximum velocity, maximum effort."
-				href="/session?mode=amrap&duration={selectedDuration}"
+				description="Count max reps against the clock. Maximum velocity, maximum effort."
+				href="/select/timer"
 			/>
 
 			<GameModeCard
@@ -66,7 +48,7 @@
 				badge="Class: Static"
 				number="02"
 				description="Hold form as long as possible. Structural integrity under tension."
-				href="/session?mode=iso&duration={selectedDuration}"
+				href="/session?mode=iso"
 			/>
 		</div>
 	</div>
