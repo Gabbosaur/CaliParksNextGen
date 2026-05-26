@@ -7,7 +7,7 @@
 	import { initAudio, playRepSound, playHoldStart, playHoldEnd, playSessionEnd, playCountdownWarning } from '@audio/audio-engine';
 	import { flashLed } from '@hardware/hardware-service';
 	import { getExercise, initExerciseRegistry } from '@config/exercises';
-	import type { PoseProvider, ClassificationResult } from '@ml/types';
+	import type { PoseProvider } from '@ml/types';
 	import type { ExerciseConfig, GameMode, SessionMetrics } from '@exercises/types';
 
 	// State
@@ -138,20 +138,27 @@
 		if (ctx && webcam.canvas) {
 			ctx.drawImage(webcam.canvas, 0, 0);
 
-			// Draw skeleton
+			// Run pose estimation once
 			const tmPoseLib = (window as any).tmPose;
-			const poseEstimation = await provider.estimatePose(webcam.canvas);
+			const tmModel = (provider as any).model;
 
-			// Get raw pose for skeleton drawing
-			const rawResult = await (provider as any).model?.estimatePose(webcam.canvas);
-			if (rawResult?.pose) {
-				tmPoseLib.drawKeypoints(rawResult.pose.keypoints, 0.5, ctx);
-				tmPoseLib.drawSkeleton(rawResult.pose.keypoints, 0.5, ctx);
+			if (tmModel) {
+				const { pose, posenetOutput } = await tmModel.estimatePose(webcam.canvas);
+
+				// Draw skeleton
+				if (pose) {
+					tmPoseLib.drawKeypoints(pose.keypoints, 0.5, ctx);
+					tmPoseLib.drawSkeleton(pose.keypoints, 0.5, ctx);
+				}
+
+				// Classify and process
+				const predictions = await tmModel.predict(posenetOutput);
+				const classifications: ClassificationResult[] = predictions.map((p: any) => ({
+					className: p.className,
+					probability: p.probability
+				}));
+				engine.processClassification(classifications);
 			}
-
-			// Classify and process
-			const classifications: ClassificationResult[] = await provider.classify(poseEstimation);
-			engine.processClassification(classifications);
 		}
 
 		animationFrame = requestAnimationFrame(loop);
