@@ -3,18 +3,18 @@
 ## Phase 1: Project Scaffolding & Core Infrastructure
 
 ### Task 1: Initialize SvelteKit project with TypeScript and Tailwind
-- [ ] Create new SvelteKit project with static adapter
-- [ ] Configure TypeScript (strict mode)
-- [ ] Install and configure Tailwind CSS with the full M3 color system from ui-reference
-- [ ] Configure Vite for optimal Raspberry Pi build
-- [ ] Set up project folder structure as defined in design.md
-- [ ] Add base layout with fullscreen dark theme, tech-bg grid, scanlines overlay
-- [ ] Configure path aliases (@lib, @components, etc.)
-- [ ] Add .gitignore, .prettierrc, eslint config
-- [ ] Install Google Fonts: Montserrat (700-900+italic), Inter (400-900), JetBrains Mono (600)
-- [ ] Install Material Symbols Outlined icon font
-- [ ] Create shared CSS with animations (pulse-glow, data-sweep, float-hud, fade-up, flicker-in, breathe-glow, spin-slow)
-- [ ] Create reusable HUD overlay component (system status labels in corners)
+- [x] Create new SvelteKit project with static adapter
+- [x] Configure TypeScript (strict mode)
+- [x] Install and configure Tailwind CSS with the full M3 color system from ui-reference
+- [x] Configure Vite for optimal Raspberry Pi build
+- [x] Set up project folder structure as defined in design.md
+- [x] Add base layout with fullscreen dark theme, tech-bg grid, scanlines overlay
+- [x] Configure path aliases (@lib, @components, etc.)
+- [x] Add .gitignore, .prettierrc, eslint config
+- [x] Install Google Fonts: Montserrat (700-900+italic), Inter (400-900), JetBrains Mono (600)
+- [x] Install Material Symbols Outlined icon font
+- [x] Create shared CSS with animations (pulse-glow, data-sweep, float-hud, fade-up, flicker-in, breathe-glow, spin-slow)
+- [x] Create reusable HUD overlay component (system status labels in corners)
 
 ### Task 2: Define core TypeScript types and interfaces
 - [ ] Create `src/lib/ml/types.ts` — PoseProvider interface, Keypoint, PoseEstimation, ClassificationResult

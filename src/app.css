@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Cyber-Arcade Kinetic System — Global Styles === */
+
+/* Tech Grid Background */
+.tech-bg {
+	background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+	background-size: 40px 40px;
+}
+
+/* Scanlines Overlay */
+.scanlines {
+	background: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, 0),
+		rgba(255, 255, 255, 0) 50%,
+		rgba(0, 0, 0, 0.2) 50%,
+		rgba(0, 0, 0, 0.2)
+	);
+	background-size: 100% 4px;
+	pointer-events: none;
+}
+
+/* Neon Glow Text */
+.neon-glow {
+	text-shadow:
+		0 0 10px rgba(0, 242, 255, 0.8),
+		0 0 20px rgba(0, 242, 255, 0.6),
+		0 0 40px rgba(0, 242, 255, 0.4);
+}
+
+/* Neon Box Glow */
+.neon-box-glow {
+	box-shadow:
+		0 0 20px rgba(0, 242, 255, 0.3),
+		inset 0 0 10px rgba(0, 242, 255, 0.2);
+	border: 2px solid rgba(0, 242, 255, 0.5);
+}
+
+/* HUD Corner Brackets */
+.hud-border {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border: 2px solid;
+	pointer-events: none;
+}
+.hud-border.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+.hud-border.tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+.hud-border.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.hud-border.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+	width: 12px;
+}
+::-webkit-scrollbar-track {
+	background: rgba(12, 14, 18, 0.5);
+	border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 219, 231, 0.3);
+	border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 219, 231, 0.6);
+}
+
+/* === Animations === */
+@media (prefers-reduced-motion: no-preference) {
+	@keyframes dataSweep {
+		0% { transform: translateY(-100%); opacity: 0; }
+		50% { opacity: 0.1; }
+		100% { transform: translateY(100%); opacity: 0; }
+	}
+
+	@keyframes pulseGlow {
+		0%, 100% { opacity: 0.7; }
+		50% { opacity: 1; }
+	}
+
+	@keyframes floatHud {
+		0%, 100% { transform: translateY(0); }
+		50% { transform: translateY(-4px); }
+	}
+
+	@keyframes fadeUp {
+		0% { opacity: 0; transform: translateY(30px); }
+		100% { opacity: 1; transform: translateY(0); }
+	}
+
+	@keyframes flickerIn {
+		0% { opacity: 0; }
+		10% { opacity: 1; }
+		20% { opacity: 0; }
+		30% { opacity: 1; }
+		40% { opacity: 0.5; }
+		50% { opacity: 1; }
+		100% { opacity: 1; }
+	}
+
+	@keyframes scaleUpFade {
+		0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+		100% { opacity: 1; transform: translateY(0) scale(1); }
+	}
+
+	@keyframes breatheGlow {
+		0%, 100% { box-shadow: 0 0 15px rgba(195, 244, 0, 0.3); }
+		50% { box-shadow: 0 0 30px rgba(195, 244, 0, 0.6); }
+	}
+
+	@keyframes spinSlow {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
+	.animate-data-sweep { animation: dataSweep 8s linear infinite; }
+	.animate-pulse-glow { animation: pulseGlow 4s ease-in-out infinite; }
+	.animate-float-hud { animation: floatHud 6s ease-in-out infinite; }
+	.animate-fade-up { animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+	.animate-flicker-in { animation: flickerIn 0.8s ease-out forwards; opacity: 0; }
+	.animate-scale-up-fade { animation: scaleUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+	.animate-breathe-glow { animation: breatheGlow 3s ease-in-out infinite; }
+	.animate-spin-slow { animation: spinSlow 12s linear infinite; }
+
+	.delay-100 { animation-delay: 100ms; }
+	.delay-200 { animation-delay: 200ms; }
+	.delay-300 { animation-delay: 300ms; }
+	.delay-400 { animation-delay: 400ms; }
+	.delay-500 { animation-delay: 500ms; }
+}
