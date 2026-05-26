@@ -134,18 +134,20 @@
 
 		webcam.update();
 
-		// Draw webcam feed
 		if (ctx && webcam.canvas) {
+			// Draw webcam feed first
 			ctx.drawImage(webcam.canvas, 0, 0);
 
-			// Run pose estimation once
 			const tmPoseLib = (window as any).tmPose;
 			const tmModel = (provider as any).model;
 
 			if (tmModel) {
 				const { pose, posenetOutput } = await tmModel.estimatePose(webcam.canvas);
 
-				// Draw skeleton
+				// Re-draw webcam feed to ensure skeleton is on top of the latest frame
+				ctx.drawImage(webcam.canvas, 0, 0);
+
+				// Draw skeleton on top
 				if (pose) {
 					tmPoseLib.drawKeypoints(pose.keypoints, 0.5, ctx);
 					tmPoseLib.drawSkeleton(pose.keypoints, 0.5, ctx);
@@ -153,7 +155,7 @@
 
 				// Classify and process
 				const predictions = await tmModel.predict(posenetOutput);
-				const classifications: ClassificationResult[] = predictions.map((p: any) => ({
+				const classifications = predictions.map((p: any) => ({
 					className: p.className,
 					probability: p.probability
 				}));
@@ -161,7 +163,9 @@
 			}
 		}
 
-		animationFrame = requestAnimationFrame(loop);
+		if (isRunning) {
+			animationFrame = requestAnimationFrame(loop);
+		}
 	}
 
 	function endSession() {
@@ -181,12 +185,11 @@
 
 		playSessionEnd();
 
-		// Navigate to results
-		const results = engine?.getResults();
+		// Navigate to results with current metrics
 		const params = new URLSearchParams({
 			mode,
-			reps: String(results?.reps ?? 0),
-			holdTimeMs: String(Math.round(results?.holdTimeMs ?? 0)),
+			reps: String(metrics.reps),
+			holdTimeMs: String(Math.round(metrics.holdTimeMs)),
 			duration: String(timerDuration)
 		});
 		goto(`/results?${params.toString()}`);

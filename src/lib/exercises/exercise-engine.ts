@@ -136,7 +136,9 @@ export class ExerciseEngine {
 			finalHoldMs += performance.now() - this.holdStartTime;
 		}
 		let reps = 0;
-		this._metrics.subscribe((m) => { reps = m.reps; })();
+		// Svelte store get() pattern: subscribe synchronously returns current value
+		const unsubscribe = this._metrics.subscribe((m) => { reps = m.reps; });
+		unsubscribe();
 		return { reps, holdTimeMs: finalHoldMs };
 	}
 }
