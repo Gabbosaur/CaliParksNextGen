@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Active Workout HUD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@700;800&amp;family=JetBrains+Mono:wght@600&amp;family=Lexend:wght@400&amp;family=Inter:wght@400;500;700;900&amp;family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface-variant": "#353436",
+        "on-secondary-container": "#556d00",
+        "secondary-container": "#c3f400",
+        "surface-container-lowest": "#0e0e0f",
+        "on-primary-fixed-variant": "#004f54",
+        "on-tertiary": "#3c0090",
+        "outline": "#849495",
+        "tertiary-fixed-dim": "#d1bcff",
+        "surface": "#131314",
+        "surface-tint": "#00dbe9",
+        "tertiary-fixed": "#e9ddff",
+        "on-secondary-fixed-variant": "#3c4d00",
+        "primary-container": "#00f0ff",
+        "on-tertiary-fixed-variant": "#5700c9",
+        "on-tertiary-fixed": "#23005b",
+        "on-surface-variant": "#b9cacb",
+        "on-secondary": "#283500",
+        "on-primary-container": "#006970",
+        "on-error": "#690005",
+        "error-container": "#93000a",
+        "secondary": "#ffffff",
+        "error": "#ffb4ab",
+        "surface-container-highest": "#353436",
+        "on-secondary-fixed": "#161e00",
+        "tertiary": "#faf3ff",
+        "inverse-on-surface": "#313031",
+        "on-tertiary-container": "#7213ff",
+        "secondary-fixed": "#c3f400",
+        "outline-variant": "#3b494b",
+        "primary-fixed": "#7df4ff",
+        "background": "#131314",
+        "surface-bright": "#3a393a",
+        "on-primary-fixed": "#002022",
+        "on-surface": "#e5e2e3",
+        "primary": "#dbfcff",
+        "surface-container": "#201f20",
+        "tertiary-container": "#e1d2ff",
+        "on-error-container": "#ffdad6",
+        "primary-fixed-dim": "#00dbe9",
+        "on-background": "#e5e2e3",
+        "on-primary": "#00363a",
+        "inverse-primary": "#006970",
+        "surface-container-low": "#1c1b1c",
+        "surface-dim": "#131314",
+        "secondary-fixed-dim": "#abd600",
+        "inverse-surface": "#e5e2e3",
+        "surface-container-high": "#2a2a2b"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "margin-desktop": "32px",
+        "container-max": "1280px",
+        "gutter": "16px",
+        "unit": "4px",
+        "margin-mobile": "16px",
+        "touch-target-min": "72px",
+        "base": "8px",
+        "xs": "4px",
+        "sm": "12px",
+        "md": "24px",
+        "lg": "48px",
+        "safe-margin": "64px",
+        "xl": "80px"
+      },
+      "fontFamily": {
+        "headline-xl": ["Anybody"],
+        "label-caps": ["JetBrains Mono"],
+        "body-md": ["Lexend"],
+        "stats-lg": ["Anybody"],
+        "headline-lg-mobile": ["Anybody"],
+        "headline-lg": ["Anybody"],
+        "display-lg": ["Montserrat"],
+        "label-xl": ["Inter"],
+        "display-xl": ["Montserrat"],
+        "headline-md": ["Montserrat"],
+        "stats-num": ["Montserrat"],
+        "body-lg": ["Inter"]
+      },
+      "fontSize": {
+        "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+        "stats-lg": ["24px", {"lineHeight": "1", "fontWeight": "800"}],
+        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+        "display-lg": ["80px", {"lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "label-xl": ["20px", {"lineHeight": "24px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+        "display-xl": ["120px", {"lineHeight": "110px", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+        "stats-num": ["64px", {"lineHeight": "64px", "fontWeight": "800"}],
+        "body-lg": ["24px", {"lineHeight": "32px", "fontWeight": "500"}]
+      }
+    },
+  },
+}
+</script>
+<style>
+.scanlines {
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2));
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+.tech-bg {
+  background-image: linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dataSweep {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 0.1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  .animate-data-sweep {
+    animation: dataSweep 8s linear infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+}
+</style>
+</head>
+<body class="bg-background text-on-background h-screen w-screen overflow-hidden relative selection:bg-primary-container selection:text-on-primary-container tech-bg font-body-md">
+
+<!-- Background Camera Feed Simulation with Cyber Frame -->
+<div class="absolute inset-4 z-0 border-2 border-primary-container/30 shadow-[0_0_30px_rgba(0,240,255,0.2)] animate-pulse-glow rounded-[32px] overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    data-alt="A futuristic fitness center viewed through a digital camera feed, showing a shadowy figure performing pull-ups. The environment is dark and atmospheric, lit by ambient neon lights. A glowing wireframe skeleton is superimposed over the athlete's body, tracking their movement."
+    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9AqMOvuXrygvjK4LVgqgBKTLF2djcYVXILtHyOnlEgEkKfwPPTqyavP1TRbeiHMVWk7NPFx_gMbeN9OgUPrt6TMQyDB5WMBaBqmFMj9brNhg07ABhJr7FiyVAwsjgRYt4a4mpJL7KOGpV4lFV_6Sv0kjQ39peC2eKvGGzJSJ_KCUFd2RRAAAbVRBYqotjjG2kL6xbLR8H7YW87HHfI6AIW4i2-tExSelb8nGJaenxy4tVE1UWeuyMyucyDnKkAREFxR1kmA0hJWc');">
+    <div class="absolute inset-0 bg-[#05070a]/40 mix-blend-multiply"></div>
+
+    <!-- Simulated Skeleton Tracking Overlay -->
+    <svg class="absolute inset-0 w-full h-full opacity-60 z-10 pointer-events-none" preserveaspectratio="none" viewbox="0 0 100 100">
+      <line stroke="#00f0ff" stroke-dasharray="2,2" stroke-width="0.5" x1="50" x2="50" y1="20" y2="40"></line>
+      <line stroke="#00f0ff" stroke-width="0.5" x1="50" x2="35" y1="40" y2="50"></line>
+      <line stroke="#00f0ff" stroke-width="0.5" x1="50" x2="65" y1="40" y2="50"></line>
+      <circle cx="50" cy="18" fill="none" r="3" stroke="#00f0ff" stroke-width="0.5"></circle>
+      <circle cx="35" cy="50" fill="#00f0ff" r="1.5"></circle>
+      <circle cx="65" cy="50" fill="#00f0ff" r="1.5"></circle>
+    </svg>
+  </div>
+
+  <!-- Scanlines overlay -->
+  <div class="absolute inset-0 scanlines z-20 mix-blend-overlay"></div>
+
+  <!-- Data Sweep -->
+  <div class="absolute inset-0 w-full h-[150%] bg-gradient-to-b from-transparent via-primary-container/10 to-transparent z-20 pointer-events-none animate-data-sweep"></div>
+</div>
+
+<!-- HUD Container (Safe Area) -->
+<main class="absolute inset-0 z-30 p-safe-margin flex flex-col justify-between pointer-events-none">
+
+  <!-- Top HUD Row -->
+  <header class="flex justify-between items-start w-full">
+
+    <!-- Left: Form Feedback -->
+    <div class="bg-surface-container-low/80 backdrop-blur-md border-2 border-tertiary-fixed-dim/50 shadow-[0_0_20px_rgba(209,188,255,0.3)] animate-pulse-glow relative overflow-hidden pointer-events-auto p-md max-w-md rounded-[24px]">
+      <div class="flex items-center gap-sm relative z-10">
+        <span class="material-symbols-outlined text-tertiary-fixed-dim text-headline-lg" style="font-variation-settings: 'FILL' 1;">warning</span>
+        <div>
+          <div class="inline-block px-3 py-1 bg-tertiary-fixed-dim/20 border border-tertiary-fixed-dim text-tertiary-fixed-dim rounded-full font-label-caps text-[10px] tracking-[0.2em] uppercase font-bold mb-1">Form Alert</div>
+          <p class="font-headline-md text-[24px] uppercase italic leading-none font-bold text-white drop-shadow-[0_0_10px_rgba(209,188,255,0.5)]">KEEP BACK STRAIGHT</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Timer -->
+    <div class="bg-surface-container-low/80 backdrop-blur-md border-2 border-secondary-container/50 shadow-[0_0_30px_rgba(195,244,0,0.3)] animate-pulse-glow relative overflow-hidden pointer-events-auto p-md flex flex-col items-end rounded-[24px]">
+      <div class="relative z-10 flex flex-col items-end">
+        <div class="inline-block px-3 py-1 bg-secondary-container/20 border border-secondary-fixed text-secondary-fixed rounded-full font-label-caps text-[10px] tracking-[0.2em] uppercase font-bold mb-2">Time Elapsed</div>
+        <div class="font-display-xl text-[80px] text-white uppercase tracking-tighter italic leading-none font-black drop-shadow-[0_0_20px_rgba(195,244,0,0.5)] tabular-nums">12:45</div>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- Bottom HUD Row -->
+  <footer class="flex justify-between items-end w-full">
+
+    <!-- Left: Quick Stats Stack -->
+    <div class="flex flex-col gap-sm pointer-events-auto">
+      <!-- Calories -->
+      <div class="bg-surface-container-low/80 backdrop-blur-md border-2 border-tertiary-fixed-dim/30 shadow-[0_0_15px_rgba(209,188,255,0.2)] relative overflow-hidden p-sm px-md flex items-center gap-md min-w-[240px] rounded-[24px]">
+        <div class="flex items-center gap-md relative z-10">
+          <div class="w-10 h-10 rounded-full border border-tertiary-fixed-dim/50 bg-tertiary-container/10 flex items-center justify-center animate-pulse-glow">
+            <span class="material-symbols-outlined text-tertiary-fixed-dim text-[24px]">local_fire_department</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-label-caps text-[10px] tracking-[0.2em] text-tertiary-fixed-dim uppercase font-bold">EST. KCAL</span>
+            <div class="font-display-lg text-[40px] text-white uppercase tracking-tighter italic leading-none font-black drop-shadow-[0_0_10px_rgba(209,188,255,0.5)]">320</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Huge Rep Counter -->
+    <div class="bg-surface-container-low/80 backdrop-blur-md border-2 border-primary-container/50 shadow-[0_0_40px_rgba(0,240,255,0.4)] animate-pulse-glow relative overflow-hidden pointer-events-auto p-lg flex flex-col items-center justify-center min-w-[360px] rounded-[32px]">
+      <div class="relative z-10 flex flex-col items-center w-full">
+        <div class="inline-block px-4 py-1.5 bg-primary-container/20 border border-primary-fixed-dim text-primary-fixed-dim rounded-full font-label-caps text-[12px] tracking-[0.2em] uppercase font-bold mb-4 shadow-[0_0_10px_rgba(0,240,255,0.3)]">Current Set</div>
+        <div class="font-display-xl text-[140px] text-white uppercase tracking-tighter italic leading-none font-black drop-shadow-[0_0_30px_rgba(0,240,255,0.6)] my-2">14</div>
+        <span class="font-headline-md text-[28px] text-primary-container italic font-bold uppercase tracking-wider">/ 20 REPS</span>
+
+        <!-- Arcade Progress Bar -->
+        <div class="w-full h-4 bg-surface-container-highest mt-6 flex gap-1 rounded-full overflow-hidden border border-primary-container/30 p-0.5">
+          <div class="h-full bg-primary-container shadow-[0_0_10px_#00f0ff] flex-1 rounded-full"></div>
+          <div class="h-full bg-primary-container shadow-[0_0_10px_#00f0ff] flex-1 rounded-full"></div>
+          <div class="h-full bg-primary-container shadow-[0_0_10px_#00f0ff] flex-1 rounded-full"></div>
+          <div class="h-full bg-primary-container/40 flex-1 rounded-full"></div>
+          <div class="h-full bg-primary-container/40 flex-1 rounded-full"></div>
+          <div class="h-full bg-surface-variant flex-1 rounded-full"></div>
+          <div class="h-full bg-surface-variant flex-1 rounded-full"></div>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+</main>
+</body>
+</html>

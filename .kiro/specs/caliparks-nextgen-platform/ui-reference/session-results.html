@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Workout Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "error": "#ffb4ab",
+        "surface-container": "#1e2024",
+        "surface-tint": "#00dbe7",
+        "on-primary-fixed-variant": "#004f54",
+        "primary": "#e1fdff",
+        "surface-container-highest": "#333539",
+        "on-secondary-fixed": "#161e00",
+        "on-secondary": "#283500",
+        "on-primary-fixed": "#002022",
+        "secondary-container": "#c3f400",
+        "on-surface": "#e2e2e8",
+        "surface-container-lowest": "#0c0e12",
+        "on-secondary-fixed-variant": "#3c4d00",
+        "on-tertiary-container": "#905000",
+        "outline": "#849495",
+        "on-tertiary": "#4c2700",
+        "on-surface-variant": "#b9cacb",
+        "tertiary-fixed": "#ffdcc1",
+        "inverse-surface": "#e2e2e8",
+        "secondary-fixed-dim": "#abd600",
+        "on-primary": "#00363a",
+        "primary-fixed": "#74f5ff",
+        "primary-container": "#00f2ff",
+        "on-primary-container": "#006a71",
+        "tertiary-fixed-dim": "#ffb778",
+        "on-tertiary-fixed": "#2e1500",
+        "on-error": "#690005",
+        "on-secondary-container": "#556d00",
+        "inverse-primary": "#00696f",
+        "surface-dim": "#111318",
+        "inverse-on-surface": "#2f3035",
+        "error-container": "#93000a",
+        "on-error-container": "#ffdad6",
+        "tertiary": "#fff6f1",
+        "primary-fixed-dim": "#00dbe7",
+        "secondary": "#ffffff",
+        "on-tertiary-fixed-variant": "#6c3a00",
+        "surface": "#111318",
+        "surface-container-low": "#1a1c20",
+        "surface-variant": "#333539",
+        "tertiary-container": "#ffd3af",
+        "on-background": "#e2e2e8",
+        "background": "#111318",
+        "secondary-fixed": "#c3f400",
+        "surface-container-high": "#282a2e",
+        "surface-bright": "#37393e",
+        "outline-variant": "#3a494b"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px",
+        "3xl": "24px"
+      },
+      "spacing": {
+        "touch-target-min": "72px",
+        "base": "8px",
+        "xs": "4px",
+        "sm": "12px",
+        "md": "24px",
+        "lg": "48px",
+        "safe-margin": "64px",
+        "xl": "80px"
+      },
+      "fontFamily": {
+        "display-lg": ["Montserrat"],
+        "body-md": ["Inter"],
+        "label-xl": ["Inter"],
+        "display-xl": ["Montserrat"],
+        "headline-md": ["Montserrat"],
+        "stats-num": ["Montserrat"],
+        "headline-lg": ["Montserrat"],
+        "body-lg": ["Inter"]
+      },
+      "fontSize": {
+        "display-lg": ["80px", { "lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+        "label-xl": ["20px", { "lineHeight": "24px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+        "display-xl": ["120px", { "lineHeight": "110px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+        "headline-md": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+        "stats-num": ["64px", { "lineHeight": "64px", "fontWeight": "800" }],
+        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "700" }],
+        "body-lg": ["24px", { "lineHeight": "32px", "fontWeight": "500" }]
+      }
+    }
+  }
+}
+</script>
+<style>
+.scanlines {
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2));
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+.tech-bg {
+  background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.particle {
+  position: absolute;
+  background: rgba(0, 242, 255, 0.2);
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dataSweep {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 0.1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes floatHud {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes crtRipple {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 0% 100%; }
+  }
+  @keyframes flickerIn {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    20% { opacity: 0; }
+    30% { opacity: 1; }
+    40% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+  @keyframes scaleUpFade {
+    0% { opacity: 0; transform: translateY(50px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes breatheGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(195,244,0,0.3); }
+    50% { box-shadow: 0 0 30px rgba(195,244,0,0.6); }
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+  }
+  .animate-data-sweep {
+    animation: dataSweep 8s linear infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+  .animate-float-hud {
+    animation: floatHud 6s ease-in-out infinite;
+  }
+  .animate-fade-up {
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+  .animate-crt-ripple {
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    animation: crtRipple 10s linear infinite;
+  }
+  .animate-flicker-in {
+    animation: flickerIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  .animate-scale-up-fade {
+    animation: scaleUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+  .animate-breathe-glow {
+    animation: breatheGlow 3s ease-in-out infinite;
+  }
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
+</style>
+</head>
+<body class="bg-[#05070a] text-on-background min-h-screen relative overflow-hidden flex flex-col font-body-md selection:bg-primary-container selection:text-on-primary-container tech-bg py-safe-margin px-safe-margin justify-center items-center">
+
+<!-- Ambient CRT Ripple -->
+<div class="fixed inset-0 z-[1] pointer-events-none animate-crt-ripple opacity-30 mix-blend-overlay"></div>
+
+<!-- Scanlines overlay -->
+<div class="fixed inset-0 scanlines z-[100] mix-blend-overlay"></div>
+
+<!-- Data Sweep -->
+<div class="fixed inset-0 w-full h-[150%] bg-gradient-to-b from-transparent via-primary-container/10 to-transparent z-[90] pointer-events-none animate-data-sweep"></div>
+
+<!-- Ambient Particles -->
+<div class="particles">
+  <div class="particle w-2 h-2 left-[10%] animation-delay-[0s] duration-[15s]"></div>
+  <div class="particle w-1 h-1 left-[30%] animation-delay-[2s] duration-[20s]"></div>
+  <div class="particle w-3 h-3 left-[60%] animation-delay-[5s] duration-[18s]"></div>
+  <div class="particle w-1 h-1 left-[80%] animation-delay-[1s] duration-[25s]"></div>
+  <div class="particle w-2 h-2 left-[90%] animation-delay-[7s] duration-[12s]"></div>
+</div>
+
+<!-- Ambient Background Lighting -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+  <div class="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-primary-container/20 rounded-full blur-[150px] mix-blend-screen animate-pulse-glow"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[800px] h-[800px] bg-secondary-container/20 rounded-full blur-[150px] mix-blend-screen animate-pulse-glow" style="animation-delay: -2s;"></div>
+</div>
+
+<!-- HUD Overlays -->
+<div class="fixed top-sm left-sm font-label-xl text-[10px] text-primary-fixed-dim/60 tracking-widest z-50 pointer-events-none uppercase animate-float-hud">
+  SYS.OP.MODE: RESULT<br>COORD [LAT: 34.0122, LONG: -118.4937]
+</div>
+<div class="fixed top-sm right-sm font-label-xl text-[10px] text-secondary-fixed/60 tracking-widest z-50 pointer-events-none text-right uppercase flex items-center gap-2 animate-float-hud" style="animation-delay: -1.5s;">
+  LINK ACTIVE
+</div>
+<div class="fixed bottom-sm left-sm font-label-xl text-[10px] text-primary-fixed-dim/60 tracking-widest z-50 pointer-events-none uppercase animate-float-hud" style="animation-delay: -3s;">
+  CALIPARKS_OS_v2.4
+</div>
+
+<!-- Main Content Canvas -->
+<main class="w-full max-w-6xl z-10 flex flex-col items-center relative">
+
+  <!-- Header Section -->
+  <div class="mb-lg text-center relative z-20">
+    <div class="inline-block relative">
+      <h1 class="font-display-xl text-[80px] md:text-[140px] text-white uppercase tracking-tighter italic leading-none font-black drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] animate-flicker-in">
+        SESSION<br>COMPLETE
+      </h1>
+    </div>
+    <div class="flex items-center justify-center gap-4 mt-8 animate-fade-up delay-200">
+      <div class="h-[2px] w-12 md:w-24 bg-secondary-container/50"></div>
+      <p class="font-label-xl text-[14px] md:text-[16px] text-secondary-container uppercase tracking-[0.2em] font-bold shadow-[0_0_10px_rgba(195,244,0,0.3)] flex items-center gap-2 animate-pulse-glow">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+        NEW PERSONAL BEST!
+      </p>
+      <div class="h-[2px] w-12 md:w-24 bg-secondary-container/50"></div>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="flex flex-col md:flex-row gap-6 justify-center items-stretch w-full mt-8 max-w-[1200px] mx-auto z-20">
+
+    <!-- Stat Card 1: Time Active -->
+    <div class="group flex-1 bg-surface-container-low/80 backdrop-blur-md border-2 border-primary-container/20 hover:border-primary-container hover:bg-surface-container/90 transition-all duration-500 relative overflow-hidden text-center shadow-[0_0_30px_rgba(0,0,0,0.5)] animate-scale-up-fade delay-300 py-12 rounded-3xl">
+      <div class="glow-bg absolute inset-0 bg-primary-container/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <div class="h-full p-lg flex flex-col items-center justify-center relative z-10">
+        <span class="material-symbols-outlined text-primary-container text-[48px] opacity-70 mb-4">timer</span>
+        <p class="font-label-xl text-[14px] text-on-surface-variant uppercase tracking-widest mb-4 border-b-2 border-primary-container/30 pb-2">Time Active</p>
+        <div class="font-display-lg text-[48px] italic font-black text-primary drop-shadow-[0_0_10px_rgba(225,253,255,0.3)] leading-none my-4">45:22</div>
+        <div class="flex items-center justify-center gap-xs text-secondary-fixed-dim font-label-xl text-[14px] mt-4">
+          <span class="material-symbols-outlined text-[18px]">trending_up</span>
+          <span class="">+2:10 vs avg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat Card 2: Total Reps (Hero Stat) -->
+    <div class="group flex-1 bg-surface-container-low/80 backdrop-blur-md border-2 border-secondary-container/40 hover:border-secondary-container hover:bg-surface-container/90 transition-all duration-500 relative overflow-hidden text-center shadow-[0_0_50px_rgba(195,244,0,0.2)] animate-scale-up-fade delay-400 transform md:-translate-y-4 py-12 rounded-3xl">
+      <div class="glow-bg absolute inset-0 bg-secondary-container/20 opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <div class="h-full p-xl flex flex-col items-center justify-center relative z-10">
+        <span class="material-symbols-outlined text-secondary-container text-[64px] mb-4 drop-shadow-[0_0_15px_rgba(195,244,0,0.8)] animate-pulse-glow" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+        <p class="font-label-xl text-[16px] text-white uppercase tracking-[0.2em] mb-4 border-b-2 border-secondary-container/50 pb-2">Total Reps</p>
+        <div class="font-display-xl text-[80px] italic font-black text-secondary-container drop-shadow-[0_0_20px_rgba(195,244,0,0.5)] leading-none my-6">342</div>
+        <div class="inline-block px-4 py-1 bg-secondary-container/20 border border-secondary-fixed text-secondary-fixed rounded-sm font-label-xl text-[14px] tracking-[0.1em] uppercase font-bold shadow-[0_0_10px_rgba(195,244,0,0.3)] mt-4">
+          <span class="material-symbols-outlined text-[16px] align-middle mr-1">military_tech</span>Top 5% Today
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat Card 3: Calories -->
+    <div class="group flex-1 bg-surface-container-low/80 backdrop-blur-md border-2 border-primary-container/20 hover:border-primary-container hover:bg-surface-container/90 transition-all duration-500 relative overflow-hidden text-center shadow-[0_0_30px_rgba(0,0,0,0.5)] animate-scale-up-fade delay-500 py-12 rounded-3xl">
+      <div class="glow-bg absolute inset-0 bg-primary-container/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+      <div class="h-full p-lg flex flex-col items-center justify-center relative z-10">
+        <span class="material-symbols-outlined text-primary-container text-[48px] opacity-70 mb-4">local_fire_department</span>
+        <p class="font-label-xl text-[14px] text-on-surface-variant uppercase tracking-widest mb-4 border-b-2 border-primary-container/30 pb-2">Calories</p>
+        <div class="font-display-lg text-[48px] italic font-black text-primary drop-shadow-[0_0_10px_rgba(225,253,255,0.3)] leading-none my-4">850</div>
+        <div class="flex items-center justify-center gap-xs text-secondary-fixed-dim font-label-xl text-[14px] mt-4">
+          <span class="material-symbols-outlined text-[18px]">trending_up</span>
+          <span class="">+120 vs avg</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="w-full max-w-[1200px] flex flex-col md:flex-row justify-center gap-8 mt-12 z-20 animate-fade-up delay-500">
+    <button class="group h-16 min-w-[300px] bg-surface-container-low/80 backdrop-blur-md border-2 border-primary-container text-primary-container font-display-lg text-[24px] flex items-center justify-center uppercase italic tracking-wider hover:bg-primary-container hover:text-on-primary-container transition-all duration-500 relative overflow-hidden hover:shadow-[0_0_40px_rgba(0,242,255,0.6)] rounded-full">
+      <div class="relative z-10 flex items-center gap-sm">
+        <span class="material-symbols-outlined text-[28px]">leaderboard</span>
+        Leaderboard
+      </div>
+      <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none"></div>
+    </button>
+
+    <button class="group h-16 min-w-[300px] bg-secondary-container/10 backdrop-blur-md border-2 border-secondary-container text-secondary-container font-display-lg text-[24px] flex items-center justify-center uppercase italic tracking-wider hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-500 relative overflow-hidden hover:shadow-[0_0_40px_rgba(195,244,0,0.6)] rounded-full animate-breathe-glow">
+      <div class="relative z-10 flex items-center gap-sm">
+        <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        Done
+      </div>
+      <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out pointer-events-none"></div>
+    </button>
+  </div>
+
+</main>
+</body>
+</html>

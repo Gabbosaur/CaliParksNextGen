@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Leaderboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "error": "#ffb4ab",
+        "surface-container": "#1e2024",
+        "surface-tint": "#00dbe7",
+        "on-primary-fixed-variant": "#004f54",
+        "primary": "#e1fdff",
+        "surface-container-highest": "#333539",
+        "on-secondary-fixed": "#161e00",
+        "on-secondary": "#283500",
+        "on-primary-fixed": "#002022",
+        "secondary-container": "#c3f400",
+        "on-surface": "#e2e2e8",
+        "surface-container-lowest": "#0c0e12",
+        "on-secondary-fixed-variant": "#3c4d00",
+        "on-tertiary-container": "#905000",
+        "outline": "#849495",
+        "on-tertiary": "#4c2700",
+        "on-surface-variant": "#b9cacb",
+        "tertiary-fixed": "#ffdcc1",
+        "inverse-surface": "#e2e2e8",
+        "secondary-fixed-dim": "#abd600",
+        "on-primary": "#00363a",
+        "primary-fixed": "#74f5ff",
+        "primary-container": "#00f2ff",
+        "on-primary-container": "#006a71",
+        "tertiary-fixed-dim": "#ffb778",
+        "on-tertiary-fixed": "#2e1500",
+        "on-error": "#690005",
+        "on-secondary-container": "#556d00",
+        "inverse-primary": "#00696f",
+        "surface-dim": "#111318",
+        "inverse-on-surface": "#2f3035",
+        "error-container": "#93000a",
+        "on-error-container": "#ffdad6",
+        "tertiary": "#fff6f1",
+        "primary-fixed-dim": "#00dbe7",
+        "secondary": "#ffffff",
+        "on-tertiary-fixed-variant": "#6c3a00",
+        "surface": "#111318",
+        "surface-container-low": "#1a1c20",
+        "surface-variant": "#333539",
+        "tertiary-container": "#ffd3af",
+        "on-background": "#e2e2e8",
+        "background": "#111318",
+        "secondary-fixed": "#c3f400",
+        "surface-container-high": "#282a2e",
+        "surface-bright": "#37393e",
+        "outline-variant": "#3a494b"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "touch-target-min": "72px",
+        "base": "8px",
+        "xs": "4px",
+        "sm": "12px",
+        "md": "24px",
+        "lg": "48px",
+        "safe-margin": "64px",
+        "xl": "80px"
+      },
+      "fontFamily": {
+        "display-lg": ["Montserrat"],
+        "body-md": ["Inter"],
+        "label-xl": ["Inter"],
+        "display-xl": ["Montserrat"],
+        "headline-md": ["Montserrat"],
+        "stats-num": ["Montserrat"],
+        "headline-lg": ["Montserrat"],
+        "body-lg": ["Inter"]
+      },
+      "fontSize": {
+        "display-lg": ["80px", {"lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-md": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+        "label-xl": ["20px", {"lineHeight": "24px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+        "display-xl": ["120px", {"lineHeight": "110px", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+        "stats-num": ["64px", {"lineHeight": "64px", "fontWeight": "800"}],
+        "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+        "body-lg": ["24px", {"lineHeight": "32px", "fontWeight": "500"}]
+      }
+    },
+  },
+}
+</script>
+<style>
+.scanlines {
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2));
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+.tech-bg {
+  background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes dataSweep {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 0.1; }
+    100% { transform: translateY(100%); opacity: 0; }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes floatHud {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-data-sweep {
+    animation: dataSweep 8s linear infinite;
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+  .animate-float-hud {
+    animation: floatHud 6s ease-in-out infinite;
+  }
+  .animate-fade-up {
+    animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+}
+
+/* Custom Scrollbar for large displays */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(12, 14, 18, 0.5);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 219, 231, 0.3);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 219, 231, 0.6);
+}
+</style>
+</head>
+<body class="bg-[#05070a] text-on-background min-h-screen font-body-md text-body-md overflow-hidden selection:bg-primary-container selection:text-on-primary-container tech-bg relative">
+
+<!-- Scanlines overlay -->
+<div class="fixed inset-0 scanlines z-[100] mix-blend-overlay"></div>
+
+<!-- Data Sweep -->
+<div class="fixed inset-0 w-full h-[150%] bg-gradient-to-b from-transparent via-primary-container/10 to-transparent z-[90] pointer-events-none animate-data-sweep"></div>
+
+<!-- Ambient Background Lighting -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+  <div class="absolute top-1/4 right-1/4 w-[800px] h-[800px] bg-primary-container/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-glow"></div>
+</div>
+
+<!-- HUD Overlays -->
+<div class="fixed top-sm right-sm font-label-xl text-[10px] text-secondary-fixed/60 tracking-widest z-50 pointer-events-none text-right uppercase flex items-center gap-2 animate-float-hud" style="animation-delay: -1.5s;">
+  LINK ACTIVE
+</div>
+<div class="fixed bottom-sm left-sm font-label-xl text-[10px] text-primary-fixed-dim/60 tracking-widest z-50 pointer-events-none uppercase animate-float-hud" style="animation-delay: -3s;">
+  CALIPARKS_OS_v2.4
+</div>
+
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-safe-margin py-md bg-[#05070a]/80 backdrop-blur-md border-b border-primary-container/20">
+  <div class="flex items-center gap-sm">
+    <h1 class="font-display-lg text-headline-md text-primary-fixed-dim uppercase tracking-[0.2em] italic font-bold">CaliParks NextGen</h1>
+  </div>
+  <div class="flex items-center gap-md">
+    <div class="flex items-center gap-sm">
+      <button aria-label="signal_cellular_alt" class="flex items-center justify-center w-[72px] h-[72px] rounded-full text-on-surface-variant hover:text-primary-container transition-all duration-300 active:scale-95 transition-transform">
+        <span class="material-symbols-outlined" style="font-size: 32px;">signal_cellular_alt</span>
+      </button>
+      <button aria-label="account_circle" class="flex items-center justify-center w-[72px] h-[72px] rounded-full text-on-surface-variant hover:text-primary-container transition-all duration-300 active:scale-95 transition-transform">
+        <span class="material-symbols-outlined" style="font-size: 32px;">account_circle</span>
+      </button>
+    </div>
+    <button class="h-[72px] px-lg rounded-full bg-transparent border-2 border-primary-container text-primary-container font-label-xl text-[16px] uppercase tracking-wider hover:bg-primary-container hover:text-on-primary-container transition-all duration-300 active:scale-95 hover:shadow-[0_0_20px_rgba(0,242,255,0.4)]">
+      End Session
+    </button>
+  </div>
+</header>
+
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full flex flex-col pt-32 pb-md px-sm z-40 bg-[#05070a]/80 backdrop-blur-md border-r border-primary-container/20 w-80 rounded-r-3xl">
+  <div class="px-md mb-lg">
+    <h2 class="font-display-lg text-headline-md text-primary-fixed-dim mb-xs uppercase italic tracking-wider">ATHLETE_HUD</h2>
+    <p class="font-label-xl text-[12px] text-primary-fixed-dim/60 tracking-[0.2em] uppercase">V2.4 Active</p>
+  </div>
+  <ul class="flex flex-col gap-sm flex-grow px-sm">
+    <li>
+      <button class="w-full flex items-center gap-md h-[72px] px-md rounded-2xl text-on-surface-variant hover:text-primary-container hover:bg-primary-container/10 border border-transparent hover:border-primary-container/30 transition-all duration-300">
+        <span class="material-symbols-outlined" style="font-size: 28px;">fitness_center</span>
+        <span class="font-label-xl text-[16px] uppercase tracking-wider">Workout</span>
+      </button>
+    </li>
+    <li>
+      <button class="w-full flex items-center gap-md h-[72px] px-md rounded-2xl bg-primary-container/10 border border-primary-container text-primary-container shadow-[0_0_15px_rgba(0,242,255,0.2)] transition-all duration-300 relative overflow-hidden">
+        <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container animate-pulse-glow"></div>
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+        <span class="font-label-xl text-[16px] uppercase tracking-wider font-bold">Leaderboard</span>
+      </button>
+    </li>
+    <li>
+      <button class="w-full flex items-center gap-md h-[72px] px-md rounded-2xl text-on-surface-variant hover:text-primary-container hover:bg-primary-container/10 border border-transparent hover:border-primary-container/30 transition-all duration-300">
+        <span class="material-symbols-outlined" style="font-size: 28px;">person</span>
+        <span class="font-label-xl text-[16px] uppercase tracking-wider">Profile</span>
+      </button>
+    </li>
+  </ul>
+  <div class="px-sm mt-auto">
+    <button class="w-full h-[72px] rounded-full bg-transparent border-2 border-primary-fixed-dim text-primary-fixed-dim font-label-xl text-[16px] uppercase tracking-wider hover:bg-primary-fixed-dim hover:text-[#05070a] transition-all duration-300 active:scale-95 flex items-center justify-center gap-sm hover:shadow-[0_0_20px_rgba(0,219,231,0.4)]">
+      <span class="material-symbols-outlined">bolt</span>QUICK START
+    </button>
+  </div>
+</nav>
+
+<!-- Main Content Canvas -->
+<main class="ml-80 pt-32 px-safe-margin pb-safe-margin h-screen overflow-y-auto relative z-10">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Page Header & Filters -->
+    <div class="flex flex-col gap-md mb-lg animate-fade-up">
+      <div class="flex justify-between items-end">
+        <div>
+          <h2 class="font-display-xl text-[80px] text-white uppercase tracking-tighter italic leading-none font-black drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] animate-pulse-glow">GLOBAL RANKINGS</h2>
+          <div class="flex items-center gap-4 mt-4">
+            <div class="h-[2px] w-12 bg-primary-container/50"></div>
+            <p class="font-label-xl text-[14px] text-primary-fixed-dim uppercase tracking-[0.2em] flex items-center gap-xs">
+              <span class="material-symbols-outlined text-[16px]">location_on</span>Venice Beach Muscle Beach - Zone A
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex gap-sm p-sm w-fit rounded-full border border-primary-container/20 bg-[#05070a]/50 backdrop-blur-md relative">
+        <button class="h-[48px] px-md rounded-full text-on-surface-variant font-label-xl text-[14px] uppercase tracking-wider hover:text-primary-container transition-colors">Today</button>
+        <button class="h-[48px] px-md rounded-full bg-primary-container/20 border border-primary-container text-primary-container font-label-xl text-[14px] uppercase tracking-wider shadow-[0_0_10px_rgba(0,242,255,0.2)]">This Week</button>
+        <button class="h-[48px] px-md rounded-full text-on-surface-variant font-label-xl text-[14px] uppercase tracking-wider hover:text-primary-container transition-colors">All-Time</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard List -->
+    <div class="flex flex-col gap-md">
+
+      <!-- Rank 1 -->
+      <div class="bg-surface-container-low/80 backdrop-blur-md rounded-3xl border border-secondary-container/30 p-md flex items-center gap-lg relative overflow-hidden group hover:border-secondary-container transition-all duration-300 animate-fade-up" style="animation-delay: 100ms;">
+        <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-fixed shadow-[0_0_10px_rgba(195,244,0,0.5)] animate-pulse-glow"></div>
+        <div class="flex items-center justify-center w-[80px] h-[80px] flex-shrink-0">
+          <span class="font-display-lg text-[64px] text-secondary-fixed italic font-black">1</span>
+        </div>
+        <div class="w-[80px] h-[80px] overflow-hidden flex-shrink-0 rounded-2xl shadow-[0_0_20px_rgba(195,244,0,0.4)] border-2 border-secondary-fixed">
+          <img alt="Athlete portrait" class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeuSmsuDQCCswVsrQFLBV5ZWzxI9nJQoSbqkTtgHIQA5pXrK_ZtkhLw-_KgIhdl81HhYXO3iVLC3iXCi587omRWGlhqVlF8DGpit7RFNI3LMFvyo-PL2HULzqePSESIZKjiL2sOEJwMCAl1hUkEGGvP97tZ4Qg3baJTLKyRhfSawyfTmHv5Y-bT0-XwWqDM0bYOB-kAxqXl_DlbPq6SkWOmrTfkym-1WICiX8__jh5tsCKietDBEStg67dHBt4WrbhmONIuPIQTV8"/>
+        </div>
+        <div class="flex-grow flex flex-col justify-center">
+          <h3 class="font-display-lg text-[32px] text-white uppercase italic leading-none drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Juggernaut_99</h3>
+          <p class="font-label-xl text-[12px] text-secondary-fixed-dim uppercase tracking-[0.2em] flex items-center gap-xs mt-2">
+            <span class="material-symbols-outlined text-[14px]">map</span>Venice Beach, CA
+          </p>
+        </div>
+        <div class="text-right flex flex-col justify-center items-end pr-md">
+          <div class="font-display-lg text-[48px] text-secondary-fixed italic font-black flex items-baseline gap-2 drop-shadow-[0_0_10px_rgba(195,244,0,0.3)]">
+            1,240 <span class="font-label-xl text-[14px] text-secondary-fixed-dim uppercase tracking-[0.2em] font-bold">REPS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rank 2 -->
+      <div class="bg-surface-container-low/80 backdrop-blur-md rounded-3xl border border-outline-variant/30 p-md flex items-center gap-lg relative hover:border-outline-variant transition-all duration-300 animate-fade-up" style="animation-delay: 200ms;">
+        <div class="flex items-center justify-center w-[80px] h-[80px] flex-shrink-0">
+          <span class="font-display-lg text-[48px] text-on-surface-variant italic font-bold">2</span>
+        </div>
+        <div class="w-[80px] h-[80px] overflow-hidden flex-shrink-0 rounded-2xl border border-outline-variant">
+          <img alt="Athlete portrait" class="w-full h-full object-cover grayscale opacity-80"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEwGUtg2_mh6_GwBZQtCFJK8-1gURk_uXMjm1prHYYgwGTv09uKY54GhTbyNkF97ixBISKy62Et4_Xbpq0OOlqvs3csYtPZkDc4kOtDktcyBlFPIIzfO-xz3WnDc5hJld3IVwBL4tz34S6lkjej9K6IwQdFdqaCfQBi3m2n7O0FHMMlnadtH_9neZHoHiOYskZ_TGiXywNv67YFa5OgwkRinxT_zfcJXf_QzCY1dSVDJlcOtx5YYkjHjennDK0_l6_ulGcMOtUi4Q"/>
+        </div>
+        <div class="flex-grow flex flex-col justify-center">
+          <h3 class="font-display-lg text-[28px] text-on-surface uppercase italic leading-none">IronMaiden</h3>
+          <p class="font-label-xl text-[12px] text-on-surface-variant uppercase tracking-[0.2em] flex items-center gap-xs mt-2">
+            <span class="material-symbols-outlined text-[14px]">map</span>Santa Monica, CA
+          </p>
+        </div>
+        <div class="text-right flex flex-col justify-center items-end pr-md">
+          <div class="font-display-lg text-[40px] text-on-surface italic font-bold flex items-baseline gap-2">
+            1,185 <span class="font-label-xl text-[12px] text-on-surface-variant uppercase tracking-[0.2em]">REPS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active User Rank (Neon Border) -->
+      <div class="bg-primary-container/10 backdrop-blur-md rounded-3xl border-2 border-primary-container p-md flex items-center gap-lg relative mt-sm mb-sm shadow-[0_0_30px_rgba(0,242,255,0.2)] animate-fade-up" style="animation-delay: 300ms;">
+        <div class="absolute inset-0 bg-primary-container/5 opacity-0 animate-pulse-glow rounded-3xl"></div>
+        <div class="flex items-center justify-center w-[80px] h-[80px] flex-shrink-0 relative z-10">
+          <span class="font-display-lg text-[48px] text-primary-container italic font-black">42</span>
+        </div>
+        <div class="w-[80px] h-[80px] overflow-hidden flex-shrink-0 rounded-2xl border-2 border-primary-container shadow-[0_0_15px_rgba(0,242,255,0.4)] relative z-10">
+          <div class="w-full h-full bg-[#05070a] flex items-center justify-center text-primary-fixed-dim">
+            <span class="material-symbols-outlined" style="font-size: 40px;">person</span>
+          </div>
+        </div>
+        <div class="flex-grow flex flex-col justify-center relative z-10">
+          <div class="flex items-center gap-sm">
+            <h3 class="font-display-lg text-[28px] text-primary-container uppercase italic leading-none drop-shadow-[0_0_10px_rgba(0,242,255,0.3)]">You</h3>
+            <span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-container font-label-xl text-[10px] tracking-[0.2em] border border-primary-container/50 uppercase">CURRENT</span>
+          </div>
+          <p class="font-label-xl text-[12px] text-primary-fixed-dim uppercase tracking-[0.2em] flex items-center gap-xs mt-2">
+            <span class="material-symbols-outlined text-[14px]">map</span>Venice Beach, CA
+          </p>
+        </div>
+        <div class="text-right flex flex-col justify-center items-end pr-md relative z-10">
+          <div class="font-display-lg text-[40px] text-primary-container italic font-black flex items-baseline gap-2 drop-shadow-[0_0_10px_rgba(0,242,255,0.3)]">
+            842 <span class="font-label-xl text-[12px] text-primary-fixed-dim uppercase tracking-[0.2em] font-bold">REPS</span>
+          </div>
+          <p class="font-label-xl text-[10px] text-primary-fixed-dim uppercase tracking-[0.2em] mt-1 flex items-center gap-xs">
+            <span class="material-symbols-outlined text-[14px]">arrow_upward</span>+12 from yesterday
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom spacing for scroll -->
+    <div class="h-xl"></div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CaliParks NextGen - Welcome</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=Montserrat:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "error": "#ffb4ab",
+        "surface-container": "#1e2024",
+        "surface-tint": "#00dbe7",
+        "on-primary-fixed-variant": "#004f54",
+        "primary": "#e1fdff",
+        "surface-container-highest": "#333539",
+        "on-secondary-fixed": "#161e00",
+        "on-secondary": "#283500",
+        "on-primary-fixed": "#002022",
+        "secondary-container": "#c3f400",
+        "on-surface": "#e2e2e8",
+        "surface-container-lowest": "#0c0e12",
+        "on-secondary-fixed-variant": "#3c4d00",
+        "on-tertiary-container": "#905000",
+        "outline": "#849495",
+        "on-tertiary": "#4c2700",
+        "on-surface-variant": "#b9cacb",
+        "tertiary-fixed": "#ffdcc1",
+        "inverse-surface": "#e2e2e8",
+        "secondary-fixed-dim": "#abd600",
+        "on-primary": "#00363a",
+        "primary-fixed": "#74f5ff",
+        "primary-container": "#00f2ff",
+        "on-primary-container": "#006a71",
+        "tertiary-fixed-dim": "#ffb778",
+        "on-tertiary-fixed": "#2e1500",
+        "on-error": "#690005",
+        "on-secondary-container": "#556d00",
+        "inverse-primary": "#00696f",
+        "surface-dim": "#111318",
+        "inverse-on-surface": "#2f3035",
+        "error-container": "#93000a",
+        "on-error-container": "#ffdad6",
+        "tertiary": "#fff6f1",
+        "primary-fixed-dim": "#00dbe7",
+        "secondary": "#ffffff",
+        "on-tertiary-fixed-variant": "#6c3a00",
+        "surface": "#111318",
+        "surface-container-low": "#1a1c20",
+        "surface-variant": "#333539",
+        "tertiary-container": "#ffd3af",
+        "on-background": "#e2e2e8",
+        "background": "#111318",
+        "secondary-fixed": "#c3f400",
+        "surface-container-high": "#282a2e",
+        "surface-bright": "#37393e",
+        "outline-variant": "#3a494b"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "touch-target-min": "72px",
+        "base": "8px",
+        "xs": "4px",
+        "sm": "12px",
+        "md": "24px",
+        "lg": "48px",
+        "safe-margin": "64px",
+        "xl": "80px"
+      },
+      "fontFamily": {
+        "display-lg": ["Montserrat"],
+        "body-md": ["Inter"],
+        "label-xl": ["Inter"],
+        "display-xl": ["Montserrat"],
+        "headline-md": ["Montserrat"],
+        "stats-num": ["Montserrat"],
+        "headline-lg": ["Montserrat"],
+        "body-lg": ["Inter"]
+      },
+      "fontSize": {
+        "display-lg": ["80px", {"lineHeight": "88px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+        "body-md": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+        "label-xl": ["20px", {"lineHeight": "24px", "letterSpacing": "0.1em", "fontWeight": "700"}],
+        "display-xl": ["120px", {"lineHeight": "110px", "letterSpacing": "-0.04em", "fontWeight": "900"}],
+        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+        "stats-num": ["64px", {"lineHeight": "64px", "fontWeight": "800"}],
+        "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "700"}],
+        "body-lg": ["24px", {"lineHeight": "32px", "fontWeight": "500"}]
+      }
+    },
+  },
+}
+</script>
+<style>
+.neon-glow {
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.8), 0 0 20px rgba(0, 242, 255, 0.6), 0 0 40px rgba(0, 242, 255, 0.4);
+}
+.neon-box-glow {
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.3), inset 0 0 10px rgba(0, 242, 255, 0.2);
+  border: 2px solid rgba(0, 242, 255, 0.5);
+}
+.cyber-border {
+  clip-path: polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+}
+.cyber-button {
+  clip-path: polygon(0 15px, 15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+}
+.pulse-slow {
+  animation: pulse-glow 3s infinite;
+}
+.pulse-breathing {
+  animation: breathe 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0% { opacity: 0.8; text-shadow: 0 0 10px rgba(0, 219, 231, 0.6); }
+  50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 219, 231, 0.9), 0 0 40px rgba(0, 219, 231, 0.6); }
+  100% { opacity: 0.8; text-shadow: 0 0 10px rgba(0, 219, 231, 0.6); }
+}
+@keyframes breathe {
+  0% { box-shadow: 0 0 20px rgba(0, 242, 255, 0.3), inset 0 0 10px rgba(0, 242, 255, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(0, 242, 255, 0.5), inset 0 0 20px rgba(0, 242, 255, 0.4); }
+  100% { box-shadow: 0 0 20px rgba(0, 242, 255, 0.3), inset 0 0 10px rgba(0, 242, 255, 0.2); }
+}
+.bg-grid {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+}
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+.scanline-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.2), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+</style>
+</head>
+<body class="bg-[#111318] text-on-background min-h-screen overflow-hidden selection:bg-primary-container selection:text-on-primary-container relative flex items-center justify-center">
+
+<!-- Deep background with grid -->
+<div class="absolute inset-0 z-0 bg-grid"></div>
+
+<!-- Scanning line -->
+<div class="scanline-overlay"></div>
+
+<!-- Background image - heavily muted/darkened for the cyber aesthetic -->
+<div class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-20 mix-blend-luminosity filter brightness-50 contrast-125"
+  data-alt="A dynamic, high-energy shot of an athlete performing a calisthenics movement on outdoor equipment, captured in a futuristic, cinematic lighting style."
+  style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDieqh11RTALEt3O2PHcue9cYrUZzXf3wxMjy6VlnUzSEnrE1YQYl83X3mBGIY-KEvphe7LFSuhwpuvP3MikFqi18uZ__7dI6PTM_ZHrrFLiMgFrXxVzuwJJGIQ6s_1LLkVWo3IAzfzX6DGPR7oxpuCc3Vy1puDsMr6Nw14w-Ms8j32mbBlj_JobcvxYIXPEt-8rmzNinQvIkF3DIEEiYwvB1vad6jDueZwz58BbJe-5y9zZK2_WBX6nsC_-iEY_o1pm0CliNkF5Sw');">
+</div>
+
+<!-- Heavy vignette/overlay for depth -->
+<div class="absolute inset-0 z-0 bg-gradient-to-t from-[#111318] via-[#111318]/80 to-transparent"></div>
+<div class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-fixed-dim/5 via-[#111318]/60 to-[#111318]"></div>
+
+<!-- Main Content Container -->
+<main class="relative z-20 w-full max-w-6xl mx-auto px-safe-margin flex flex-col items-center text-center">
+
+  <!-- Brand Header -->
+  <div class="mb-xl transform transition-transform duration-700 hover:scale-105">
+    <h1 class="font-display-xl text-[100px] leading-[100px] italic font-black text-primary uppercase tracking-tighter neon-glow">
+      CALIPARKS<br/>NEXTGEN
+    </h1>
+    <div class="flex items-center justify-center gap-4 mt-sm opacity-80">
+      <div class="h-px w-16 bg-primary-container shadow-[0_0_10px_#00f2ff]"></div>
+      <p class="font-label-xl text-label-xl text-primary tracking-[0.3em]">ATHLETE_HUD // V2.4 ONLINE</p>
+      <div class="h-px w-16 bg-primary-container shadow-[0_0_10px_#00f2ff]"></div>
+    </div>
+  </div>
+
+  <!-- Interactive Core (Cybernetic frame layout) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-lg w-full max-w-5xl backdrop-blur-xl bg-surface-container-lowest/80 p-lg rounded-3xl border border-primary/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative">
+
+    <!-- Decorative corner pieces -->
+    <div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary-container rounded-tl-3xl"></div>
+    <div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary-container rounded-tr-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary-container rounded-bl-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary-container rounded-br-3xl"></div>
+
+    <!-- Scan to Login Column -->
+    <div class="flex flex-col items-center justify-center p-md bg-[#111318]/80 rounded-2xl neon-box-glow pulse-breathing relative overflow-hidden group">
+      <h2 class="font-headline-md text-headline-md italic font-bold text-primary mb-md">Scan to Login</h2>
+
+      <!-- Mock QR Code Box with HUD elements -->
+      <div class="relative w-72 h-72 mb-md">
+        <!-- HUD Brackets -->
+        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary-container rounded-tl-xl"></div>
+        <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary-container rounded-tr-xl"></div>
+        <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary-container rounded-bl-xl"></div>
+        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary-container rounded-br-xl"></div>
+
+        <!-- HUD Text -->
+        <div class="absolute -top-6 left-0 text-[10px] font-mono text-primary-container tracking-widest">COORD: 34.0522°N, 118.2437°W</div>
+        <div class="absolute -bottom-6 right-0 text-[10px] font-mono text-primary-container tracking-widest animate-pulse">STATUS: LINK ACTIVE</div>
+
+        <div class="w-full h-full bg-white p-4 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(0,242,255,0.4)] relative overflow-hidden">
+          <div class="absolute inset-0 bg-primary-container/10"></div>
+          <img alt="QR Code" class="w-full h-full mix-blend-multiply opacity-90 filter contrast-125"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZzJRgpadptrugFeyPQ-AUdjU4e4JaSCxf59J0gVdKrYN9ks4RZa2ilZZl0p6jQO9Z-1lxAFNqu3TIsascqFRZEzz4HLZpVBOsxPf_bq1JCwoPRqyTNmSdj8D4_0XYjelShipfFgiypDvxWFb3bw6dZCG61HvJTddXFpm_VTO-W3MpH0DWExZevfTGhPcsME5pe70BFjUw6BEL28M7dTyYxkqhEoQ0n-4-IUMCvldpHaI6cgKEnPg86FMaHG4mJe0oG1oLeiNJ26c"/>
+        </div>
+      </div>
+
+      <p class="font-body-md text-body-md text-primary-container flex items-center gap-2">
+        <span class="material-symbols-outlined" data-icon="smartphone">smartphone</span>
+        Open app to sync stats
+      </p>
+    </div>
+
+    <!-- Guest / Alternative Action Column -->
+    <div class="flex flex-col items-center justify-center gap-lg">
+      <div class="text-center">
+        <h3 class="font-headline-lg text-headline-lg italic font-bold text-secondary mb-xs">No App?</h3>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">Start an unranked session.</p>
+      </div>
+
+      <!-- Primary Action Button -->
+      <button class="w-full h-touch-target-min bg-primary-container text-[#111318] font-label-xl text-label-xl rounded-2xl shadow-[0_0_20px_rgba(0,242,255,0.5)] hover:bg-primary-fixed hover:shadow-[0_0_40px_rgba(0,242,255,0.8)] active:scale-95 transition-all duration-300 flex items-center justify-center gap-sm group relative overflow-hidden font-bold tracking-widest">
+        <div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 ease-in-out"></div>
+        <span class="material-symbols-outlined text-3xl" data-icon="rocket_launch" data-weight="fill" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+        <span class="relative z-10 uppercase">Protocol: Guest</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Touch to Start global CTA overlay -->
+  <div class="mt-xl pulse-slow cursor-pointer flex items-center gap-sm text-primary-container hover:text-primary transition-colors">
+    <span class="material-symbols-outlined text-4xl" data-icon="touch_app">touch_app</span>
+    <span class="font-label-xl text-label-xl uppercase tracking-widest font-bold">Touch Anywhere to Start</span>
+  </div>
+
+</main>
+
+<script>
+// Simple script to handle 'Touch Anywhere' generic interaction
+document.body.addEventListener('click', function(e) {
+  if(!e.target.closest('button')) {
+    const clickEffect = document.createElement('div');
+    clickEffect.className = 'absolute w-32 h-32 bg-primary-container/30 rounded-full blur-xl pointer-events-none transform -translate-x-1/2 -translate-y-1/2 mix-blend-screen';
+    clickEffect.style.left = e.clientX + 'px';
+    clickEffect.style.top = e.clientY + 'px';
+    clickEffect.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    document.body.appendChild(clickEffect);
+    setTimeout(() => {
+      clickEffect.style.transform = 'translate(-50%, -50%) scale(4)';
+      clickEffect.style.opacity = '0';
+    }, 10);
+    setTimeout(() => {
+      clickEffect.remove();
+    }, 400);
+  }
+});
+</script>
+</body>
+</html>
