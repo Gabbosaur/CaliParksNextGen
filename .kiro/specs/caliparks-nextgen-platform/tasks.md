@@ -106,29 +106,29 @@
 ## Phase 5: UI Components
 
 ### Task 12: Implement Webcam component
-- [ ] Create `src/lib/components/Webcam.svelte`
-- [ ] Setup webcam stream via getUserMedia
-- [ ] Render video feed on canvas with cyber frame border (rounded-[32px], primary-container/30 border, pulse-glow)
-- [ ] Draw pose skeleton overlay in cyan (#00f0ff) with keypoint circles
-- [ ] Support configurable size and flip
-- [ ] Handle webcam permission errors gracefully
-- [ ] Add scanlines overlay and data-sweep animation on top of feed
+- [x] Create `src/lib/components/Webcam.svelte`
+- [x] Setup webcam stream via getUserMedia
+- [x] Render video feed on canvas with cyber frame border (rounded-[32px], primary-container/30 border, pulse-glow)
+- [x] Draw pose skeleton overlay in cyan (#00f0ff) with keypoint circles
+- [x] Support configurable size and flip
+- [x] Handle webcam permission errors gracefully
+- [x] Add scanlines overlay and data-sweep animation on top of feed
 
 ### Task 13: Implement Timer and Counter components
-- [ ] Create `src/lib/components/Timer.svelte` — large display-xl number with secondary-container glow, "Time Elapsed" label-caps badge
-- [ ] Create `src/lib/components/Counter.svelte` — huge display-xl rep number (140px) with primary-container glow, progress bar (segmented arcade style)
-- [ ] Create `src/lib/components/HoldTimer.svelte` — stopwatch display (SS.cc format) with breathing glow while active
+- [x] Create `src/lib/components/Timer.svelte` — large display-xl number with secondary-container glow, "Time Elapsed" label-caps badge
+- [x] Create `src/lib/components/Counter.svelte` — huge display-xl rep number (140px) with primary-container glow, progress bar (segmented arcade style)
+- [x] Create `src/lib/components/HoldTimer.svelte` — stopwatch display (SS.cc format) with breathing glow while active
 - [ ] Create `src/lib/components/ConfidenceBars.svelte` — phase confidence indicators (not needed in final HUD per Stitch, but useful for debug)
 - [ ] Create `src/lib/components/FormAlert.svelte` — tertiary-colored alert panel with warning icon and message
 - [ ] Create `src/lib/components/CalorieCounter.svelte` — small stat panel with fire icon and estimated kcal
-- [ ] All components reactive to Svelte stores
+- [x] All components reactive to Svelte stores
 
 ### Task 14: Implement selection components
-- [ ] Create `src/lib/components/ExerciseCard.svelte` — not used in current Stitch (mode selection is the main screen), but prepare for future exercise grid
-- [ ] Create `src/lib/components/GameModeSelector.svelte` — two large full-height cards (AMRAP cyan / ISO lime) with orbiting icon, class badge, description, "Initiate Protocol" CTA
-- [ ] Create `src/lib/components/TimerSelector.svelte` — duration chips (30s, 60s, 90s, 120s) shown after AMRAP selection
-- [ ] Implement orbital animation on icon circles (spin-slow, orbiting particle dots)
-- [ ] Implement hover states: border glow, bg fill, icon translate-y, sweep animation on CTA
+- [x] Create `src/lib/components/ExerciseCard.svelte` — not used in current Stitch (mode selection is the main screen), but prepare for future exercise grid
+- [x] Create `src/lib/components/GameModeSelector.svelte` — two large full-height cards (AMRAP cyan / ISO lime) with orbiting icon, class badge, description, "Initiate Protocol" CTA
+- [x] Create `src/lib/components/TimerSelector.svelte` — duration chips (30s, 60s, 90s, 120s) shown after AMRAP selection
+- [x] Implement orbital animation on icon circles (spin-slow, orbiting particle dots)
+- [x] Implement hover states: border glow, bg fill, icon translate-y, sweep animation on CTA
 
 ### Task 15: Implement Leaderboard component
 - [ ] Create `src/lib/components/Leaderboard.svelte`

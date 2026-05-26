@@ -38,9 +38,13 @@
 	let isReady = false;
 
 	onMount(async () => {
-		// Parse mode from URL
-		const urlMode = new URLSearchParams(window.location.search).get('mode');
+		// Parse mode and duration from URL
+		const params = new URLSearchParams(window.location.search);
+		const urlMode = params.get('mode');
 		mode = (urlMode === 'iso' ? 'iso' : 'amrap') as GameMode;
+		const urlDuration = parseInt(params.get('duration') ?? '60');
+		timerDuration = urlDuration;
+		timeRemaining = urlDuration;
 
 		// Init audio (needs user gesture — page navigation counts)
 		initAudio();
