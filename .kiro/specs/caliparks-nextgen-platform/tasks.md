@@ -17,11 +17,12 @@
 - [x] Create reusable HUD overlay component (system status labels in corners)
 
 ### Task 2: Define core TypeScript types and interfaces
-- [ ] Create `src/lib/ml/types.ts` — PoseProvider interface, Keypoint, PoseEstimation, ClassificationResult
-- [ ] Create `src/lib/exercises/types.ts` — ExerciseConfig, ExercisePhase, GameMode, WorkoutSession, SessionMetrics
-- [ ] Create `src/lib/hardware/types.ts` — HardwareAction types
-- [ ] Create `src/lib/sync/types.ts` — SyncQueueItem, ApiClient interface
-- [ ] Create `src/lib/auth/types.ts` — User, PairingToken types
+- [x] Create `src/lib/ml/types.ts` — PoseProvider interface, Keypoint, PoseEstimation, ClassificationResult
+- [x] Create `src/lib/exercises/types.ts` — ExerciseConfig, ExercisePhase, GameMode, WorkoutSession, SessionMetrics
+- [x] Create `src/lib/hardware/types.ts` — HardwareAction types
+- [x] Create `src/lib/sync/types.ts` — SyncQueueItem, ApiClient interface
+- [x] Create `src/lib/auth/types.ts` — User, PairingToken types
+- [x] Create `src/lib/config/types.ts` — DeviceConfig types
 
 ### Task 3: Implement device configuration system
 - [ ] Create `src/lib/config/device.ts` — device ID, park ID, hardware service URL
